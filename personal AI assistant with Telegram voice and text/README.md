@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/Workflow.png" width="600">
+  <img src="Workflow.png" width="600">
 </p>
 
 # Personal AI Assistant on Telegram
