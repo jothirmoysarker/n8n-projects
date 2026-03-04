@@ -1,60 +1,69 @@
 # Personal AI Assistant on Telegram
 
-Angie is a Telegram-based AI assistant designed to streamline daily productivity tasks. The assistant can summarize emails, retrieve calendar events, manage task lists, access contact information, and interact through both text and voice messages.
+This is a Telegram-based AI assistant designed to streamline daily productivity tasks. The assistant can summarize emails, retrieve calendar events, manage task lists, access contact information, and interact through both text and voice messages.
 
-Overview
+---
 
-Angie integrates AI capabilities with common productivity tools to provide a seamless assistant experience within Telegram. The system processes user queries, retrieves relevant data from connected services, and generates structured, natural-language responses.
+## Overview
 
-How It Works
-1. Telegram Trigger
+This project integrates AI capabilities with common productivity tools to provide a seamless assistant experience within Telegram. The system processes user queries, retrieves relevant data from connected services, and generates structured, natural-language responses.
+
+---
+
+## How It Works
+
+### 1. Telegram Trigger
 
 The workflow begins when a user sends a message to the Telegram bot.
 
-If the message is text, it is processed directly.
+* If the message is **text**, it is processed directly.
+* If the message is **voice**, the audio file is retrieved and transcribed into text using OpenAI Speech-to-Text.
 
-If the message is voice, the audio file is retrieved and transcribed into text using OpenAI Speech-to-Text.
+---
 
-2. AI Processing
+### 2. AI Processing
 
-The processed input is forwarded to the AI assistant (Angie), which interprets the request and determines which connected tool should be used.
+The processed input is forwarded to the AI assistant, which interprets the request and determines which connected tool should be used.
 
-3. Integrated Tools
+---
 
-Angie is connected to the following services:
+### 3. Integrated Tools
 
-Email Retrieval – Uses Gmail API to fetch and summarize recent emails filtered by date.
+ This project is connected to the following services:
 
-Calendar Lookup – Retrieves scheduled events for specific dates.
+* **Email Retrieval** – Uses Gmail API to fetch and summarize recent emails filtered by date.
+* **Calendar Lookup** – Retrieves scheduled events for specific dates.
+* **Task Management** – Connects to a Baserow database to retrieve to-do items.
+* **Contact Access** – Retrieves stored contact information from Baserow.
 
-Task Management – Connects to a Baserow database to retrieve to-do items.
+---
 
-Contact Access – Retrieves stored contact information from Baserow.
+### 4. Response Generation
 
-4. Response Generation
+After collecting the required data, AI assistant generates a concise and structured response and sends it back to the user via Telegram.
 
-After collecting the required data, Angie generates a concise and structured response and sends it back to the user via Telegram.
+---
 
-Technology Stack
+## Technology Stack
 
-Telegram Bot API
+* Telegram Bot API
+* OpenAI API (Speech-to-Text + Language Model)
+* Gmail API
+* Calendar API
+* Baserow Database
+* Workflow Automation (e.g., n8n)
 
-OpenAI API (Speech-to-Text + Language Model)
+---
 
-Gmail API
-
-Calendar API
-
-Baserow Database
-
-Workflow Automation (e.g., n8n)
-
-Reference
+## Reference
 
 This project was inspired by publicly available AI automation content and workflows shared by:
 
-Derek Cheung
-Engineer, instructor, and investor based in Canada.
-YouTube: https://www.youtube.com/@derekcheungsa
+**Derek Cheung**
+
+Engineer, instructor, and investor based in Canada
+
+YouTube: [https://www.youtube.com/@derekcheungsa](https://www.youtube.com/@derekcheungsa)
 
 Derek shares practical AI application development workflows and automation systems for solving real-world problems.
+
