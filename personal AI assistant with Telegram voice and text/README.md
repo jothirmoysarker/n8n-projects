@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="images/Workflow.png" width="600">
+</p>
+
 # Personal AI Assistant on Telegram
 
 This is a Telegram-based AI assistant designed to streamline daily productivity tasks. The assistant can summarize emails, retrieve calendar events, manage task lists, access contact information, and interact through both text and voice messages.
