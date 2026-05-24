@@ -1,0 +1,990 @@
+{
+  "name": "Content Creation 3",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d1f6573e-dc67-4207-9c1f-9ad5cd55f9db",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Not Uploaded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "e5aee290-e5ad-4810-9181-8a703eb29f2e",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "not uploaded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "49f0793d-38d9-4940-bba3-0674abfbb671",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "=not Uploaded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        832,
+        176
+      ],
+      "id": "ab00ee66-ee2a-4ff1-ad56-b364c2325492",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 13
+            },
+            {
+              "triggerAtHour": 18
+            },
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        448,
+        176
+      ],
+      "id": "8371c99b-4e38-4364-b45a-8a06576c75ed",
+      "name": "Schedule Trigger",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8ce37e5b-17d2-4a75-b936-9638c9f8d683",
+              "name": "Image",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "b02ecf90-c7fc-4500-be0f-a7f53182d7ee",
+              "name": "Prompt",
+              "value": "={{ $('Code in JavaScript').item.json.cleaned_text }}",
+              "type": "string"
+            },
+            {
+              "id": "e7eb8313-d5cd-4118-90c5-ed5f7553a656",
+              "name": "Product Name",
+              "value": "={{ $('Get row(s) in sheet').item.json['Product Name'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2160,
+        176
+      ],
+      "id": "6e24a16c-0759-4964-94f7-c0c9bc498707",
+      "name": "Add image to Prompt"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=const styles = [\n  // 0 - Sunday\n  \"Cinematic Storytelling — A real woman wearing a green neck massager device strapped securely around her neck. The device sits on the back of the neck with its rounded green body clearly visible. The massage nodes are smooth rounded silicone bumps — NOT fingers, NOT claws, NOT nails, NOT human-like shapes. The strap goes over the shoulders and clips at the chest. Her face is fully visible and relaxed.\",\n\n  // 1 - Monday\n  \"Problem & Solution — Woman showing neck tension, then wearing the green neck massager correctly. The massage nodes are small smooth rounded rubber bumps pressing gently on the neck — they have NO fingernails, NO finger joints, NO claw shape. Device is solid green with a flat control panel on top. Face always visible.\",\n\n  // 2 - Tuesday\n  \"Emotional Hook — Close-up of the green neck massager worn on the back of the neck. The massage contact points are smooth oval silicone nodes — completely smooth with NO nails, NO claws, NO finger-like protrusions. Device is clearly mechanical and electronic, not biological. Woman smiling with eyes closed.\",\n\n  // 3 - Wednesday\n  \"Q&A Style — Show how the neck massager is worn: device on back of neck, smooth rounded massage nodes contacting the neck skin, strap over shoulders, buckle at chest. The nodes are perfectly smooth rounded bumps — NOT shaped like fingers or hands. Device looks like a premium electronic wellness gadget.\",\n\n  // 4 - Thursday\n  \"Morning Recovery Routine — Woman in calm bedroom wearing green neck massager. Smooth rounded silicone massage nodes press gently on the neck — no fingernails, no claws, no organic shapes. The device is a clean modern electronic product. Soft morning light, face fully visible.\",\n\n  // 5 - Friday\n  \"Stress Recovery Lifestyle — Woman after long work day wearing green neck massager correctly. Massage nodes are smooth mechanical bumps — completely free of any nail, claw, finger, or biological appearance. Premium cinematic lighting, face visible and relaxed.\",\n\n  // 6 - Saturday\n  \"Before & After — Neck tension then relief with green neck massager. Massage contact points are smooth rounded silicone pads — NO fingernails, NO claws, NO finger joints. Device is a solid electronic product with clean mechanical design.\"\n];\n\nconst deviceRules = `\n\nSTRICT VISUAL RULES — MUST FOLLOW EXACTLY:\n- Device placement: back and sides of neck ONLY — never on face\n- Massage nodes are SMOOTH ROUNDED SILICONE BUMPS — NOT fingers, NOT claws, NOT nails, NOT hand-shaped\n- The device is a MECHANICAL ELECTRONIC PRODUCT — no biological or organic-looking parts\n- Strap goes over both shoulders and clips with buckle at chest\n- Woman's face ALWAYS fully visible, never covered by device\n- Device is solid, opaque, never transparent or clipping through body\n- Control buttons visible on top surface of device\n- Ultra sharp 4K photorealistic quality — high detail, high clarity, no blur\n- Cinematic depth of field — sharp subject, soft background\n- NO AI artifacts, NO distortion, NO low-resolution areas\n`;\n\nconst dayIndex = new Date().getDay();\nconst style = styles[dayIndex % styles.length];\n\nreturn [{ json: { style: style + deviceRules } }];"
+            }
+          ]
+        },
+        "builtInTools": {
+          "googleSearch": true
+        },
+        "options": {
+          "systemMessage": "You are an expert in creating high-performing, short-form AI video generation prompts optimized for TikTok, Reels, and Shorts. You write prompts that are cinematic, realistic, and directly usable in AI video generation tools. You never include text overlays, promotional language, buy now, call to action, or any sales language in your prompts. You never use double quotes, asterisks, or forward slashes in your output."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        176
+      ],
+      "id": "074fcee7-d9ce-44b0-b135-2305013ff127",
+      "name": "Message a model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Z5NEruZfkW19iGeZ",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Schedule and Trigger\n",
+        "height": 464,
+        "width": 660,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "c3eec6e4-32e1-4c57-979a-0c6dd18329b4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Prompt Generations\n",
+        "height": 480,
+        "width": 1220,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1072,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "d7a5d39d-24eb-4142-a70a-fb0d24ed296e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $input.first().json.content.parts[0].text || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        176
+      ],
+      "id": "2b7290d2-51e3-41f4-8994-f6720af2b700",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation Using Gemini\n",
+        "height": 352,
+        "width": 1476
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "16558549-a746-467e-93a6-94bdced69fbd",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Upload Video\n\n",
+        "height": 400,
+        "width": 1124
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        992
+      ],
+      "typeVersion": 1,
+      "id": "2e3df255-0a26-4923-afa8-5d78ac36e7c0",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1cpzREuA-JcfXT2a-_lsjTFODfvFfSn8oG5xsluIM32E",
+          "mode": "list",
+          "cachedResultName": "Product Details for n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cpzREuA-JcfXT2a-_lsjTFODfvFfSn8oG5xsluIM32E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "الورقة1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cpzREuA-JcfXT2a-_lsjTFODfvFfSn8oG5xsluIM32E/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Not Uploaded"
+            },
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "not uploaded"
+            }
+          ]
+        },
+        "combineFilters": "OR",
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        656,
+        176
+      ],
+      "id": "7d275e39-9903-4a8a-a33e-f54a3bc9087e",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GVKaQ4pPSa8BllwL",
+          "name": "Google Sheets account 2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "useBinaryData": true
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        480,
+        1072
+      ],
+      "id": "388c5090-dbde-4785-8ec6-e66754fd3df4",
+      "name": "Upload media",
+      "credentials": {
+        "blotatoApi": {
+          "id": "JruM5DzA1ZGfYHtQ",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "The product details is not updated. Check Google Sheet name \"Product Details for n8n\".",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        1120,
+        368
+      ],
+      "id": "30f80fe2-d405-470d-a353-21024805c697",
+      "name": "Send a message1",
+      "webhookId": "517487ea-24a0-412f-ba56-87ca4e43c2dd",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "=The post is uploaded to Instagram, Upload Time:  {{ $json.currentDate }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        1264,
+        1008
+      ],
+      "id": "9fe68a00-871d-49ea-b2e6-e23994d4366a",
+      "name": "Send a message3",
+      "webhookId": "dbe86573-9039-4862-90c5-ae0301575e03",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "=The post is uploaded to Tiktok, Upload Time: {{ $json.currentDate }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        1264,
+        1216
+      ],
+      "id": "429801c5-3ffb-4a99-9f6b-140a451a4787",
+      "name": "Send a message4",
+      "webhookId": "abf47cd0-1e28-4b8f-9b23-6ac69a7ba1b7",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "accountId": {
+          "__rl": true,
+          "value": "43605",
+          "mode": "list",
+          "cachedResultName": "vexalunes",
+          "cachedResultUrl": "https://backend.blotato.com/v2/accounts/43605"
+        },
+        "postContentText": "={{ $('Add image to Prompt').item.json['Product Name'] }}",
+        "postContentMediaUrls": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        784,
+        1008
+      ],
+      "id": "1c9f6ef3-be2e-4d69-8aff-81f1c6601439",
+      "name": "Instagram",
+      "credentials": {
+        "blotatoApi": {
+          "id": "JruM5DzA1ZGfYHtQ",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "platform": "tiktok",
+        "accountId": {
+          "__rl": true,
+          "value": "39863",
+          "mode": "list",
+          "cachedResultName": "vexaluness",
+          "cachedResultUrl": "https://backend.blotato.com/v2/accounts/39863"
+        },
+        "postContentText": "={{ $('Add image to Prompt').item.json['Product Name'] }}",
+        "postContentMediaUrls": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        800,
+        1216
+      ],
+      "id": "cbccc574-2f81-485e-950f-75e98b248ccb",
+      "name": "Tiktok",
+      "credentials": {
+        "blotatoApi": {
+          "id": "JruM5DzA1ZGfYHtQ",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "=Video is being generat",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        624,
+        688
+      ],
+      "id": "2fcc67c6-a26b-4022-82c2-7d6f3dffbf01",
+      "name": "Send a message6",
+      "webhookId": "bd14f1a6-8f0e-4f02-9d47-5f24cd97715c",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        1008
+      ],
+      "id": "4bdbe726-f9ee-44c6-a7b6-9dd91ecfc4e6",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        1216
+      ],
+      "id": "ea6e2469-a4be-4a00-80bf-580b6260f5fc",
+      "name": "Date & Time1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const styles = [\n  // 0 - Sunday\n  \"Cinematic Storytelling — A real woman wearing a green neck massager device strapped securely around her neck. The device sits on the back of the neck with its rounded green body clearly visible. The massage nodes are smooth rounded silicone bumps — NOT fingers, NOT claws, NOT nails, NOT human-like shapes. The strap goes over the shoulders and clips at the chest. Her face is fully visible and relaxed.\",\n\n  // 1 - Monday\n  \"Problem & Solution — Woman showing neck tension, then wearing the green neck massager correctly. The massage nodes are small smooth rounded rubber bumps pressing gently on the neck — they have NO fingernails, NO finger joints, NO claw shape. Device is solid green with a flat control panel on top. Face always visible.\",\n\n  // 2 - Tuesday\n  \"Emotional Hook — Close-up of the green neck massager worn on the back of the neck. The massage contact points are smooth oval silicone nodes — completely smooth with NO nails, NO claws, NO finger-like protrusions. Device is clearly mechanical and electronic, not biological. Woman smiling with eyes closed.\",\n\n  // 3 - Wednesday\n  \"Q&A Style — Show how the neck massager is worn: device on back of neck, smooth rounded massage nodes contacting the neck skin, strap over shoulders, buckle at chest. The nodes are perfectly smooth rounded bumps — NOT shaped like fingers or hands. Device looks like a premium electronic wellness gadget.\",\n\n  // 4 - Thursday\n  \"Morning Recovery Routine — Woman in calm bedroom wearing green neck massager. Smooth rounded silicone massage nodes press gently on the neck — no fingernails, no claws, no organic shapes. The device is a clean modern electronic product. Soft morning light, face fully visible.\",\n\n  // 5 - Friday\n  \"Stress Recovery Lifestyle — Woman after long work day wearing green neck massager correctly. Massage nodes are smooth mechanical bumps — completely free of any nail, claw, finger, or biological appearance. Premium cinematic lighting, face visible and relaxed.\",\n\n  // 6 - Saturday\n  \"Before & After — Neck tension then relief with green neck massager. Massage contact points are smooth rounded silicone pads — NO fingernails, NO claws, NO finger joints. Device is a solid electronic product with clean mechanical design.\"\n];\n\nconst deviceRules = `\n\nSTRICT VISUAL RULES — MUST FOLLOW EXACTLY:\n- Device placement: back and sides of neck ONLY — never on face\n- Massage nodes are SMOOTH ROUNDED SILICONE BUMPS — NOT fingers, NOT claws, NOT nails, NOT hand-shaped\n- The device is a MECHANICAL ELECTRONIC PRODUCT — no biological or organic-looking parts\n- Strap goes over both shoulders and clips with buckle at chest\n- Woman's face ALWAYS fully visible, never covered by device\n- Device is solid, opaque, never transparent or clipping through body\n- Control buttons visible on top surface of device\n- Ultra sharp 4K photorealistic quality — high detail, high clarity, no blur\n- Cinematic depth of field — sharp subject, soft background\n- NO AI artifacts, NO distortion, NO low-resolution areas\n`;\n\nconst dayIndex = new Date().getDay();\nconst style = styles[dayIndex % styles.length];\n\nreturn [{ json: { style: style + deviceRules } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        176
+      ],
+      "id": "36c4ff5e-4d41-4c9b-88c7-1bceb59d024e",
+      "name": "Get Today's Style"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-generate-preview:predictLongRunning",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"instances\": [\n    {\n      \"prompt\": \"{{ $json.Prompt }}\",\n      \"referenceImages\": [\n        {\n          \"image\": {\n            \"bytesBase64Encoded\": \"{{ $json.Image }}\",\n            \"mimeType\": \"image/png\"\n          },\n          \"referenceType\": \"asset\"\n        }\n      ]\n    }\n  ],\n  \"parameters\": {\n    \"durationSeconds\": 8,\n    \"sampleCount\": 1,\n    \"aspectRatio\": \"9:16\",\n    \"resolution\": \"720p\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        432,
+        688
+      ],
+      "id": "aa5f32c3-0f4f-47c7-b37f-15d6e09cff5b",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eDs7tSelGKPYPGiB",
+          "name": "Gemini"
+        },
+        "googlePalmApi": {
+          "id": "33H6Ylk9MZ5ExGXR",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Get row(s) in sheet').item.json['Image Link'] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1760,
+        176
+      ],
+      "id": "9d65b068-4428-479d-952c-69f06a7b3ee5",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1968,
+        176
+      ],
+      "id": "61ffbf9a-00e4-4c1d-aeb4-0fdf12058f7a",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58e59d65-d141-4f51-b170-71b7041b41eb",
+              "name": "Gemini video id",
+              "value": "={{ $('HTTP Request').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        688
+      ],
+      "id": "bceebc48-93d0-4ec0-8e9d-5709e2221790",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "amount": 45
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        688
+      ],
+      "id": "4cb6c8d7-5e66-48af-ab97-0d369929fd34",
+      "name": "Wait",
+      "webhookId": "bad236e9-ea5e-49ba-af88-1e1ae484b392"
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $('Edit Fields2').item.json['Gemini video id'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1248,
+        688
+      ],
+      "id": "639b3c6e-79c8-4e02-ac67-a1d0f66c779b",
+      "name": "HTTP Request1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "33H6Ylk9MZ5ExGXR",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61b2ec6c-daa1-4fcb-8ae2-886fb9d4f33c",
+              "leftValue": "={{ $json.response.generateVideoResponse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1456,
+        688
+      ],
+      "id": "99fdc996-1244-4bc4-861d-d02c975edfb5",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1664,
+        688
+      ],
+      "id": "cb77625e-bfb3-4d62-a24f-4335b2cb45fc",
+      "name": "HTTP Request3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "33H6Ylk9MZ5ExGXR",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get Today's Style",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add image to Prompt": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload media": {
+      "main": [
+        [
+          {
+            "node": "Tiktok",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tiktok": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message6": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message3": {
+      "main": [
+        []
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Send a message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Today's Style": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Add image to Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a message6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Upload media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bfc1efdb-26df-4abf-9ce8-580203e514f9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "83c2e61eaa1c687af7c6388dfdbf7d5cfd8f5d143f109c17c2671156a93c00fd"
+  },
+  "id": "eVIaU0RqjsIbEY3E",
+  "tags": []
+}

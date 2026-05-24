@@ -1,0 +1,1771 @@
+{
+  "name": "Instagram And TikTok (Ad)",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d1f6573e-dc67-4207-9c1f-9ad5cd55f9db",
+              "leftValue": "={{ $json['Status*'] }}",
+              "rightValue": "Pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        480,
+        112
+      ],
+      "id": "8257612a-7950-4ea1-b754-bfa212e05c5c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                6,
+                4,
+                2
+              ],
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        64,
+        112
+      ],
+      "id": "a91c67dd-79c8-4a6f-a0e5-83728290106b",
+      "name": "Schedule Trigger",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8ce37e5b-17d2-4a75-b936-9638c9f8d683",
+              "name": "Image",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "b02ecf90-c7fc-4500-be0f-a7f53182d7ee",
+              "name": "Prompt",
+              "value": "={{ $('Clean Prompt2').item.json.cleaned_text }}",
+              "type": "string"
+            },
+            {
+              "id": "e7eb8313-d5cd-4118-90c5-ed5f7553a656",
+              "name": "Product Name",
+              "value": "={{ $('Get row(s) in sheet').item.json['Product Name*'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2272,
+        320
+      ],
+      "id": "183218dd-6c92-4ddc-b7f9-b145e771e78a",
+      "name": "Add image to Prompt"
+    },
+    {
+      "parameters": {
+        "content": "## Schedule and Trigger\n",
+        "height": 464,
+        "width": 816,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "b5f506ed-ac65-44ca-ad5f-e81ab8290a92",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Prompt Generations\n",
+        "height": 336,
+        "width": 1524
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        896,
+        256
+      ],
+      "typeVersion": 1,
+      "id": "51388899-dd84-484c-9e54-257f17ff657f",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation Using Gemini\n",
+        "height": 336,
+        "width": 1460
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2448,
+        256
+      ],
+      "typeVersion": 1,
+      "id": "2a222065-9582-4f14-a667-2e3bae1935d6",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bNJHXrAsuakuDqe3ozz_cu3KSS8W7ONRpM0Jg0UOVag",
+          "mode": "list",
+          "cachedResultName": "TheScottishCurse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bNJHXrAsuakuDqe3ozz_cu3KSS8W7ONRpM0Jg0UOVag/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bNJHXrAsuakuDqe3ozz_cu3KSS8W7ONRpM0Jg0UOVag/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status*",
+              "lookupValue": "Pending"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        112
+      ],
+      "id": "c72d9b8c-6e25-456c-97a8-b1ca5ed579b7",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9OlRHV43hAtTv7XQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        2096,
+        320
+      ],
+      "id": "9732ecfa-5392-46db-987a-5b979001aafc",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58e59d65-d141-4f51-b170-71b7041b41eb",
+              "name": "Gemini video id",
+              "value": "={{ $('Gemini Video Request2').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2928,
+        352
+      ],
+      "id": "651d5b59-d8c9-4da3-8ac8-5fd3126f3add",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "amount": 45
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3120,
+        352
+      ],
+      "id": "bc68df2c-d65c-4da6-afef-578992af13c5",
+      "name": "Wait",
+      "webhookId": "bad236e9-ea5e-49ba-af88-1e1ae484b392"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61b2ec6c-daa1-4fcb-8ae2-886fb9d4f33c",
+              "leftValue": "={{ $json.response.generateVideoResponse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3504,
+        352
+      ],
+      "id": "51777f93-ceaf-4ad3-bbe1-518689c75618",
+      "name": "If6"
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Update TheScottishCurse Sheet",
+        "emailType": "text",
+        "message": "Hello Glenn,\n\nAll the Products have been posted. If you want to post existing products change the status to pending in TheScottishCurse sheet.\n\nTo post existing products:\nThe product that you want to post select that product, and charge the status column to pending.\n\nTo Add new products:\nAdd new \nproduct Name, \nProduct Description,\nImage Link (upload the image in Drive and copy the link),\nStatus (copy the previous column and past it, and change the status to pending).\n\nImage Folder Link: https://drive.google.com/drive/folders/1mO_J_JIY0A0CjW4uXDhwqU60WsyThrEf?usp=drive_link\n\nGoogle Sheet Link: https://docs.google.com/spreadsheets/d/1bNJHXrAsuakuDqe3ozz_cu3KSS8W7ONRpM0Jg0UOVag/edit?usp=sharing\n\nThank You.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        320
+      ],
+      "id": "09b651b6-1f3f-44eb-9591-b24b306b0fa7",
+      "name": "Send a message1",
+      "webhookId": "7e185688-e644-48cc-ac32-902614eeea58",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-fast-generate-preview:predictLongRunning",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"instances\": [\n    {\n      \"prompt\": \"{{ $json.Prompt }}\",\n      \"referenceImages\": [\n        {\n          \"image\": {\n            \"bytesBase64Encoded\": \"{{ $json.Image }}\",\n            \"mimeType\": \"image/png\"\n          },\n          \"referenceType\": \"asset\"\n        }\n      ]\n    }\n  ],\n  \"parameters\": {\n    \"durationSeconds\": 8,\n    \"sampleCount\": 1,\n    \"aspectRatio\": \"9:16\",\n    \"resolution\": \"720p\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2512,
+        352
+      ],
+      "id": "73f2ff9d-7198-464d-9c41-a28923e7ff4a",
+      "name": "Gemini Video Request2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $('Edit Fields2').item.json['Gemini video id'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3312,
+        352
+      ],
+      "id": "03c8b239-99b9-48fa-8c80-b943a8f1d7cb",
+      "name": "Gemini Video Generation2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3744,
+        336
+      ],
+      "id": "975e59f7-2f14-4b3b-9010-fd91276a8744",
+      "name": "Get Video From Gemini2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $input.first().json.content[0].text || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1696,
+        320
+      ],
+      "id": "4d35500b-ea23-4dd5-928c-88a9f4f58c80",
+      "name": "Clean Prompt2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const styles = [\n  \"Origin Story — Angus McBones recounts how he came to haunt the Scottish Highlands\",\n  \"Adventure Tale — Angus embarks on a daring expedition in his safari outfit\",\n  \"Military Honour — Angus reflects on battles fought and medals earned in his military uniform\",\n  \"Highland Pride — Angus celebrates Scottish heritage in his hybrid kilt and blazer\",\n  \"Mystery and Intrigue — Angus uncovers a dark secret hidden beneath the Scottish moors\",\n  \"Comedy and Wit — Angus gets into a humorous situation that only a skeleton could survive\",\n  \"Legendary Folklore — Angus retells an ancient Scottish legend with a twist\"\n];\n\nconst dayIndex = new Date().getDay(); // 0 = Sunday, 6 = Saturday\nconst style = styles[dayIndex % styles.length];\nreturn [{ json: { style } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1216,
+        320
+      ],
+      "id": "b5ddb103-8275-42fb-a788-4f4ebbcdbdae",
+      "name": "Get Today's Style"
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Progress Message",
+        "emailType": "text",
+        "message": "Hello Glenn,\n\nThe video is generating. \n\nIf you see this massage but there is no new post appearing in Instagram, TikTok, and YouTube then check the Gemini and Claude Billing.\n\nGemini Billing Link: https://aistudio.google.com/app/billing?billing=01F741-F44733-3D6521\n\nClaude Billing Link: https://platform.claude.com/settings/billing\n\nThank You.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2736,
+        352
+      ],
+      "id": "d88d215e-fc2c-4157-9296-f650b82f9cd4",
+      "name": "Confirmation message2",
+      "webhookId": "d003dfaa-3da8-47ee-9e96-820791dfbe9b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-opus-4-7",
+          "mode": "list",
+          "cachedResultName": "claude-opus-4-7"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert in creating high-performing short-form AI video ad prompts optimized for TikTok and Instagram Reels.\n\nYour task is to generate a complete, ready-to-use AI video generation prompt for an 8-second ad featuring Angus McBones — a charismatic Scottish skeleton character with glowing red eyes, a black skull face, and a smoking pipe. He appears in different themed outfits and is the face of the Scottish Independent News brand.\n\nCharacter Reference: The attached image shows the exact visual appearance and outfit of Angus McBones to be used in this video. Match his design exactly — do not alter his face, body, proportions, or outfit details.\n\nToday's Content Style: {{ $json.style }}\n\nProduct or Brand Being Promoted:\nName: {{ $('Get row(s) in sheet').item.json['Product Name*'] }}\nDescription: {{ $('Get row(s) in sheet').item.json['Product Description*'] }}\n\nRequirements:\n- The video must be exactly 8 seconds long with a clear beginning, middle, and end.\n- Angus McBones must be the central character throughout the entire video. He is the hero of the shot.\n- Follow today's content style strictly as the storytelling structure and creative direction.\n- Open with a strong scroll-stopping visual hook in the first 1 to 2 seconds — something visually bold, unexpected, or dramatic that immediately grabs attention.\n- The tone should feel cinematic and character-driven but punchy and fast enough for social media.\n- Use dramatic Scottish environments such as misty highlands, ancient castles, foggy moors, candlelit stone halls, or stormy coastlines as the backdrop.\n- Camera movement should feel intentional and cinematic — slow push-ins, low angle hero shots, dramatic side pans, or whip cuts between scenes.\n- Lighting should be moody and atmospheric — deep shadows, warm torch or firelight, cold moonlight, or dramatic rim lighting that makes Angus pop against dark backgrounds.\n- His glowing red eyes should always be visible and expressive, serving as the emotional anchor of every scene.\n- The pacing must be tight and punchy — no wasted frames. Every second should add energy or tension.\n- Background audio should match the mood — dramatic orchestral strings, Scottish bagpipes, eerie ambient highland sounds, or a deep cinematic bass hit on the hook.\n- Do not include text overlays, promotional language, buy now, call to action, or any sales language in the prompt.\n- Do not use double quotes, asterisks, or forward slashes anywhere in the output.\n- Output only the final video prompt. No explanations, no labels, no extra text.\n\nThe prompt must include:\n1. A bold cinematic hook in the first 1 to 2 seconds featuring Angus in a visually striking pose or moment\n2. A scene-by-scene breakdown from hook to middle to closing shot focused on Angus and the brand story\n3. Camera style and movement for each scene\n4. Lighting mood and atmospheric visual style\n5. Background audio and sound design\n6. Overall mood and pacing that feels epic, character-driven, and native to short-form social media\n\nExample Output:\nA low angle shot rises slowly from mossy cobblestones to reveal Angus McBones standing at the entrance of a crumbling Scottish castle gate, his red eyes cutting through thick highland mist like two burning embers. He wears his black tuxedo kilt, one gloved hand resting on the stone archway, pipe smoke curling upward into the cold grey sky. The camera pushes in with slow cinematic momentum as thunder rumbles in the distance. Cut to a tight close up on his glowing eyes narrowing slightly, a look of ancient knowing confidence. The frame holds for a beat, heavy and still. Then a sharp whip cut to a wide dramatic shot of Angus standing alone on a misty highland cliff edge at dusk, arms at his sides, the last light of the setting sun catching the gold details of his blazer. The closing frame freezes on his silhouette against the burning horizon. Deep cinematic orchestral strings swell underneath with a single distant bagpipe note fading into wind."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        320
+      ],
+      "id": "1aabee7d-436c-41cf-bbc1-993028c500d1",
+      "name": "Message a model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "hMFp4v64VFaNrbOY",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Get row(s) in sheet').item.json['Image Link*'] }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1888,
+        320
+      ],
+      "id": "324e88de-fa63-4858-93ee-2846932b86c2",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "sIvwqY9KoauBAWIE",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        1408,
+        464
+      ],
+      "id": "80094e32-3939-43d1-833d-1d3305ce9f90",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e7affe24-b496-4a33-9b0b-96380aa24bd1",
+              "leftValue": "={{ $json.Prompt }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        688,
+        96
+      ],
+      "id": "06bd9514-d393-4684-831c-534300eeae5e",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation Using Gemini\n",
+        "height": 320,
+        "width": 1460,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2448,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "425e5f67-3970-422a-a612-73e920525714",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "## Upload Video\n\n",
+        "height": 464,
+        "width": 1364,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4080,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "a317733c-2d22-479d-859e-cfdc4ca73b1e",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58e59d65-d141-4f51-b170-71b7041b41eb",
+              "name": "Gemini video id",
+              "value": "={{ $('Gemini Video Request').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2928,
+        -16
+      ],
+      "id": "25598e7a-0d1b-4f4f-ac4a-2a17e842c0e9",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "amount": 45
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3120,
+        -16
+      ],
+      "id": "d065c31f-5302-4dca-aa3b-ed2d56b0e5cc",
+      "name": "Wait1",
+      "webhookId": "bad236e9-ea5e-49ba-af88-1e1ae484b392"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61b2ec6c-daa1-4fcb-8ae2-886fb9d4f33c",
+              "leftValue": "={{ $json.response.generateVideoResponse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3504,
+        -16
+      ],
+      "id": "32f89828-c59f-4b98-976b-671baf67a1ae",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-fast-generate-preview:predictLongRunning",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"instances\": [\n    {\n      \"prompt\": \"{{ $json.Prompt }}\",\n      \"referenceImages\": [\n        {\n          \"image\": {\n            \"bytesBase64Encoded\": \"{{ $json.Image }}\",\n            \"mimeType\": \"image/png\"\n          },\n          \"referenceType\": \"asset\"\n        }\n      ]\n    }\n  ],\n  \"parameters\": {\n    \"durationSeconds\": 8,\n    \"sampleCount\": 1,\n    \"aspectRatio\": \"9:16\",\n    \"resolution\": \"720p\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2512,
+        -16
+      ],
+      "id": "949a462e-e7b0-4614-bc47-30d72bcd0cf3",
+      "name": "Gemini Video Request",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $('Edit Fields').item.json['Gemini video id'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3312,
+        -16
+      ],
+      "id": "9412dbad-4294-4b62-b430-24eaeef424f3",
+      "name": "Gemini Video Generation",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3744,
+        -32
+      ],
+      "id": "45a63d97-93ec-4e94-b0f4-ea315dc6cc1b",
+      "name": "Get Video From Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Progress Message",
+        "emailType": "text",
+        "message": "Hello Glenn,\n\nThe video is generating. \n\nIf you see this massage but there is no new post appearing in Instagram, TikTok, and YouTube then check the Gemini and Claude Billing.\n\nGemini Billing Link: https://aistudio.google.com/app/billing?billing=01F741-F44733-3D6521\n\nClaude Billing Link: https://platform.claude.com/settings/billing\n\nThank You.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2736,
+        -16
+      ],
+      "id": "c21e2f47-1e1f-489f-aaac-de61e461370e",
+      "name": "Confirmation message",
+      "webhookId": "d003dfaa-3da8-47ee-9e96-820791dfbe9b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "useBinaryData": true
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        4144,
+        16
+      ],
+      "id": "4aa4a657-c1fa-46de-863c-d3cde597ee8c",
+      "name": "Upload media",
+      "credentials": {
+        "blotatoApi": {
+          "id": "XMIThfPFAn6LLiHA",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "accountId": {
+          "__rl": true,
+          "value": "47162",
+          "mode": "list",
+          "cachedResultName": "elspethcairn",
+          "cachedResultUrl": "https://backend.blotato.com/v2/accounts/47162"
+        },
+        "postContentText": "={{ $('Get row(s) in sheet').item.json['Product Name*'] }}",
+        "postContentMediaUrls": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        4480,
+        -32
+      ],
+      "id": "2608ac82-b6ee-4459-a60a-979b7c0fc1d2",
+      "name": "Instagram1",
+      "credentials": {
+        "blotatoApi": {
+          "id": "XMIThfPFAn6LLiHA",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "platform": "tiktok",
+        "accountId": {
+          "__rl": true,
+          "value": "42331",
+          "mode": "list",
+          "cachedResultName": "scottish.independ78",
+          "cachedResultUrl": "https://backend.blotato.com/v2/accounts/42331"
+        },
+        "postContentText": "={{ $('Get row(s) in sheet').item.json['Product Name*'] }}",
+        "postContentMediaUrls": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        4496,
+        176
+      ],
+      "id": "360b3eb3-381e-4e2a-b602-053bd698d0fe",
+      "name": "Tiktok1",
+      "credentials": {
+        "blotatoApi": {
+          "id": "XMIThfPFAn6LLiHA",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        4736,
+        -32
+      ],
+      "id": "91e17fa2-0ae8-480d-aa53-f7ca931436df",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        4736,
+        176
+      ],
+      "id": "3765ecf6-9929-42c2-81d8-50183d8decf6",
+      "name": "Date & Time7"
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Post Successful",
+        "message": "Hello Glenn,\n\nThe Video have been successfully Posted to Instagram.\n\nThank You.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        4960,
+        -32
+      ],
+      "id": "8c07c221-5923-47f5-b3ff-db8c338f091f",
+      "name": "Success Message2",
+      "webhookId": "d2fd9403-e894-4d32-8d78-23ad47292d44",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Post Successful",
+        "emailType": "text",
+        "message": "Hello Glenn,  \n\nThe Video have been successfully Posted to TikTok.  \n\nThank You.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        4960,
+        176
+      ],
+      "id": "a5b17f98-71cd-4e6b-9e66-35ee411fd50b",
+      "name": "Success Message3",
+      "webhookId": "d2fd9403-e894-4d32-8d78-23ad47292d44",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1bNJHXrAsuakuDqe3ozz_cu3KSS8W7ONRpM0Jg0UOVag",
+          "mode": "list",
+          "cachedResultName": "TheScottishCurse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bNJHXrAsuakuDqe3ozz_cu3KSS8W7ONRpM0Jg0UOVag/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bNJHXrAsuakuDqe3ozz_cu3KSS8W7ONRpM0Jg0UOVag/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status*": "=Uploaded",
+            "row_number": "={{ $('Get row(s) in sheet').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Product Id",
+              "displayName": "Product Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Name*",
+              "displayName": "Product Name*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Description*",
+              "displayName": "Product Description*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Image Name",
+              "displayName": "Product Image Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Link*",
+              "displayName": "Image Link*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status*",
+              "displayName": "Status*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        5168,
+        80
+      ],
+      "id": "b07a4bb3-7402-4dde-be5b-99718f84d228",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9OlRHV43hAtTv7XQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8ce37e5b-17d2-4a75-b936-9638c9f8d683",
+              "name": "Image",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "b02ecf90-c7fc-4500-be0f-a7f53182d7ee",
+              "name": "Prompt",
+              "value": "={{ $('Clean Prompt').item.json.cleaned_text }}",
+              "type": "string"
+            },
+            {
+              "id": "e7eb8313-d5cd-4118-90c5-ed5f7553a656",
+              "name": "Product Name",
+              "value": "={{ $('Get row(s) in sheet').item.json['Product Name*'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1808,
+        -16
+      ],
+      "id": "532a9b92-119a-4d0c-a3e7-114cb1fb34a5",
+      "name": "Add image to Prompt1"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1584,
+        -16
+      ],
+      "id": "8deb047d-4570-4b8b-a783-8fcddc629522",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $('Get row(s) in sheet').first().json.Prompt || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1136,
+        -16
+      ],
+      "id": "e0f951df-6698-4f15-8fad-8e7850f9b0a6",
+      "name": "Clean Prompt"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Get row(s) in sheet').item.json['Image Link*'] }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1360,
+        -16
+      ],
+      "id": "905cd828-70f1-4e8d-bd2f-79418644f768",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "sIvwqY9KoauBAWIE",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a18ad0af-ca7c-4734-81f3-c2829ba2a251",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json['Image Link*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        928,
+        0
+      ],
+      "id": "08ffc6e8-de63-40ec-a5f5-c8e1563c7a2b",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation with existing prompt\n",
+        "height": 320,
+        "width": 1520,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        896,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "20f8092d-3cef-411f-8533-88e7ee8ec4f5",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "modelId": {
+          "__rl": true,
+          "value": "models/veo-3.1-fast-generate-preview",
+          "mode": "list",
+          "cachedResultName": "models/veo-3.1-fast-generate-preview"
+        },
+        "prompt": "={{ $('Get row(s) in sheet').item.json.Prompt }}",
+        "options": {
+          "sampleCount": 1,
+          "durationSeconds": 8,
+          "aspectRatio": "9:16"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        2128,
+        16
+      ],
+      "id": "3499c29e-bfe6-42d3-90d5-305896ce8e15",
+      "name": "Generate a video",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8bd90c29-c488-4c16-ac08-cbf1598dbe22",
+              "leftValue": "={{ $json['Image Link*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        944,
+        336
+      ],
+      "id": "1b0da13c-1cb8-4569-abf3-6689542dd1a8",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Error Massage",
+        "emailType": "text",
+        "message": "Hello Glenn,\n\nYou need to add Image Link in Sheet.\n\nSheet Link: https://docs.google.com/spreadsheets/d/1bNJHXrAsuakuDqe3ozz_cu3KSS8W7ONRpM0Jg0UOVag/edit?usp=sharing\n\nThank You.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        432
+      ],
+      "id": "ed911c55-32a3-4413-b512-c5eb4f2e674b",
+      "name": "Send a message",
+      "webhookId": "ae2ab3cc-347e-44fb-b8db-eb6d8ae80e35",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add image to Prompt": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Add image to Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Generation2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "Get Video From Gemini2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Request2": {
+      "main": [
+        [
+          {
+            "node": "Confirmation message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Generation2": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video From Gemini2": {
+      "main": [
+        [
+          {
+            "node": "Upload media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Prompt2": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Today's Style": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmation message2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Clean Prompt2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Message a model",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If7": {
+      "main": [
+        [
+          {
+            "node": "Get Video From Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Request": {
+      "main": [
+        [
+          {
+            "node": "Confirmation message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Generation": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video From Gemini": {
+      "main": [
+        [
+          {
+            "node": "Upload media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmation message": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload media": {
+      "main": [
+        [
+          {
+            "node": "Instagram1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Tiktok1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram1": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tiktok1": {
+      "main": [
+        [
+          {
+            "node": "Date & Time7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Success Message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time7": {
+      "main": [
+        [
+          {
+            "node": "Success Message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success Message2": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success Message3": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Add image to Prompt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Prompt": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add image to Prompt1": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        []
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Clean Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate a video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Get Today's Style",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate a video": {
+      "main": [
+        [
+          {
+            "node": "Upload media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a8adec11-51cf-4fc7-ab7f-ae246e137321",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6047e03721d9dc97b62008e1c5f1b0618edb8fe8f5948f314f526260131f78f2"
+  },
+  "id": "FqidTh8cgoqAJGSj",
+  "tags": []
+}

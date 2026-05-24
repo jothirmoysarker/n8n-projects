@@ -1,0 +1,3801 @@
+{
+  "name": "YouTube (Story)",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d1f6573e-dc67-4207-9c1f-9ad5cd55f9db",
+              "leftValue": "={{ $json['Status*'] }}",
+              "rightValue": "Pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1680,
+        -528
+      ],
+      "id": "8f4ea203-bf91-430d-b674-4b3d260b9d6c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                0,
+                3
+              ],
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        1264,
+        -528
+      ],
+      "id": "43587ba8-9836-461e-b4cc-0a38afb9d4c9",
+      "name": "Schedule Trigger",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8ce37e5b-17d2-4a75-b936-9638c9f8d683",
+              "name": "Image",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "b02ecf90-c7fc-4500-be0f-a7f53182d7ee",
+              "name": "Prompt 1",
+              "value": "={{ $('Clean Prompt 1').item.json.cleaned_text }}\n",
+              "type": "string"
+            },
+            {
+              "id": "e7eb8313-d5cd-4118-90c5-ed5f7553a656",
+              "name": "Caption",
+              "value": "=The Scottish Curse News (Part 1)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2544,
+        -544
+      ],
+      "id": "f8083727-4313-46c4-837f-b3887439d36c",
+      "name": "Add image to Prompt"
+    },
+    {
+      "parameters": {
+        "content": "## Schedule and Trigger\n",
+        "height": 464,
+        "width": 656
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        -640
+      ],
+      "typeVersion": 1,
+      "id": "c7a7bca4-3b97-4293-b9b6-f8439f24f9c9",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Prompt Generations\n",
+        "height": 464,
+        "width": 836
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1872,
+        -640
+      ],
+      "typeVersion": 1,
+      "id": "6916e270-6c9e-47ba-9802-8c5f253b7b3b",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation Using Gemini for part 1\n",
+        "height": 352,
+        "width": 2324
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3104,
+        -1120
+      ],
+      "typeVersion": 1,
+      "id": "cb3f813d-0bfc-4bcf-a13e-df7e8b34a355",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "## Upload Video\n\n",
+        "height": 464,
+        "width": 1364
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        7376,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "b386c83d-4137-4779-b10b-8107ac9fbf3e",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1JpASAvT7NsGtBGhuFw3uv-K6yKq4zfEf1vIaFmjxKtk",
+          "mode": "list",
+          "cachedResultName": "TheScottishCurse (YouTube)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JpASAvT7NsGtBGhuFw3uv-K6yKq4zfEf1vIaFmjxKtk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JpASAvT7NsGtBGhuFw3uv-K6yKq4zfEf1vIaFmjxKtk/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status*",
+              "lookupValue": "Pending"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1472,
+        -528
+      ],
+      "id": "b575f170-71a6-4b95-bc8c-069a09d84fbb",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9OlRHV43hAtTv7XQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        2320,
+        -544
+      ],
+      "id": "38348304-3e4d-444f-b861-78ddcb5e79e4",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58e59d65-d141-4f51-b170-71b7041b41eb",
+              "name": "Gemini video id",
+              "value": "={{ $('Gemini Video Request 1').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3584,
+        -1024
+      ],
+      "id": "c425279b-519b-40cd-ac78-c46d688da58b",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3776,
+        -1024
+      ],
+      "id": "ef59b677-aaee-475e-a676-d298489da7ae",
+      "name": "Wait",
+      "webhookId": "bad236e9-ea5e-49ba-af88-1e1ae484b392"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61b2ec6c-daa1-4fcb-8ae2-886fb9d4f33c",
+              "leftValue": "={{ $json.response.generateVideoResponse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4240,
+        -1024
+      ],
+      "id": "48c06e2b-d9bd-439c-a500-82fbb7cb17ef",
+      "name": "If6"
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Update TheScottishCurse Sheet",
+        "emailType": "text",
+        "message": "Hello Glenn,\n\nAll the Products have been posted. If you want to post existing products change the status to pending in TheScottishCurse sheet.\n\nTo post existing products:\nThe product that you want to post select that product, and charge the status column to pending.\n\nTo Add new products:\nAdd new \nproduct Name, \nProduct Description,\nImage Link (upload the image in Drive and copy the link),\nStatus (copy the previous column and past it, and change the status to pending).\n\nImage Folder Link: https://drive.google.com/drive/folders/1mO_J_JIY0A0CjW4uXDhwqU60WsyThrEf?usp=drive_link\n\nGoogle Sheet Link: https://docs.google.com/spreadsheets/d/1JpASAvT7NsGtBGhuFw3uv-K6yKq4zfEf1vIaFmjxKtk/edit?usp=sharing\n\nThank You.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1936,
+        -352
+      ],
+      "id": "c5811f64-8db7-448c-8708-88f5519a4bff",
+      "name": "Send a message1",
+      "webhookId": "7e185688-e644-48cc-ac32-902614eeea58",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $('Edit Fields2').item.json['Gemini video id'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3968,
+        -1024
+      ],
+      "id": "128f5226-bb87-4e41-8821-d661af292f96",
+      "name": "Gemini Video Generation2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Progress Message",
+        "emailType": "text",
+        "message": "Hello Glenn,\n\nThe video is generating. \n\nIf you see this massage but there is no new post appearing in Instagram, TikTok, and YouTube then check the Gemini and Claude Billing.\n\nGemini Billing Link: https://aistudio.google.com/app/billing?billing=01F741-F44733-3D6521\n\nClaude Billing Link: https://platform.claude.com/settings/billing\n\nThank You.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        3392,
+        -1024
+      ],
+      "id": "15c5c1fb-f5b0-4035-9bcd-ca11149523fd",
+      "name": "Confirmation message2",
+      "webhookId": "d003dfaa-3da8-47ee-9e96-820791dfbe9b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "useBinaryData": true
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        7440,
+        -208
+      ],
+      "id": "e096ba1e-20bb-48a6-8e04-ef4e61dd7bf3",
+      "name": "Upload media3",
+      "credentials": {
+        "blotatoApi": {
+          "id": "XMIThfPFAn6LLiHA",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        7968,
+        -208
+      ],
+      "id": "e469261b-1fcd-4254-9988-c5069e1d7fcf",
+      "name": "Date & Time4"
+    },
+    {
+      "parameters": {
+        "sendTo": "elspeth@scottishindependentnews.com",
+        "subject": "Post Successful",
+        "message": "Hello Glenn,\n\nThe Video have been successfully Posted to YouTube.\n\nThank You.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        8240,
+        -208
+      ],
+      "id": "b379fde8-1675-478e-a135-e91a5bdb52ec",
+      "name": "Success Message",
+      "webhookId": "d2fd9403-e894-4d32-8d78-23ad47292d44",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TXfXQuz2pXWZGPdn",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1JpASAvT7NsGtBGhuFw3uv-K6yKq4zfEf1vIaFmjxKtk",
+          "mode": "list",
+          "cachedResultName": "TheScottishCurse (YouTube)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JpASAvT7NsGtBGhuFw3uv-K6yKq4zfEf1vIaFmjxKtk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JpASAvT7NsGtBGhuFw3uv-K6yKq4zfEf1vIaFmjxKtk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status*": "=Uploaded",
+            "row_number": "={{ $('Get row(s) in sheet').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "System Massage *",
+              "displayName": "System Massage *",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Title*",
+              "displayName": "Video Title*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Link*",
+              "displayName": "Image Link*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Script 1*",
+              "displayName": "Script 1*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Script 2*",
+              "displayName": "Script 2*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Script 3*",
+              "displayName": "Script 3*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Script 4*",
+              "displayName": "Script 4*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Script 5*",
+              "displayName": "Script 5*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status*",
+              "displayName": "Status*",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        8480,
+        -208
+      ],
+      "id": "1441c1e1-d2b6-4803-a0d6-32cf12e84fb4",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9OlRHV43hAtTv7XQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Get row(s) in sheet').item.json['Image Link*'] }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2112,
+        -544
+      ],
+      "id": "23d17837-e2d3-4724-966a-9ea1c27b6bf4",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "sIvwqY9KoauBAWIE",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "platform": "youtube",
+        "accountId": {
+          "__rl": true,
+          "value": "36787",
+          "mode": "list",
+          "cachedResultName": "Glenn Westra (Elspeth Cairn)",
+          "cachedResultUrl": "https://backend.blotato.com/v2/accounts/36787"
+        },
+        "postContentText": "=",
+        "postContentMediaUrls": "={{ $json.url }}",
+        "postCreateYoutubeOptionTitle": "={{ $('Get row(s) in sheet').item.json['Video Title*'] }}",
+        "options": {}
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        7712,
+        -208
+      ],
+      "id": "fd002f2b-a44f-444e-8a5e-8a6bb21fb205",
+      "name": "YouTube",
+      "credentials": {
+        "blotatoApi": {
+          "id": "XMIThfPFAn6LLiHA",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation Using Gemini for Part 2\n",
+        "height": 352,
+        "width": 2324,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3104,
+        -720
+      ],
+      "typeVersion": 1,
+      "id": "fac68eb0-37b7-44fb-ad84-e50c3e5e4de3",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58e59d65-d141-4f51-b170-71b7041b41eb",
+              "name": "Gemini video id",
+              "value": "={{ $('Gemini Video Request 2').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3776,
+        -624
+      ],
+      "id": "1edbea81-b8c4-4f48-8353-28fb759f6601",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4000,
+        -624
+      ],
+      "id": "64d59260-ea8e-4f5a-8efb-14b597d3cbb5",
+      "name": "Wait1",
+      "webhookId": "bad236e9-ea5e-49ba-af88-1e1ae484b392"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61b2ec6c-daa1-4fcb-8ae2-886fb9d4f33c",
+              "leftValue": "={{ $json.response.generateVideoResponse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4416,
+        -624
+      ],
+      "id": "bf36fd4c-ae8f-4100-8e4e-973b6588ac28",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $('Edit Fields').item.json['Gemini video id'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4176,
+        -624
+      ],
+      "id": "3d18b035-4b11-4edd-b25c-bf09e20c43be",
+      "name": "Gemini Video Generation",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "68750872-9bd4-4431-89e8-d73dc2f48900",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json['Script 2*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3152,
+        -608
+      ],
+      "id": "2c9a2ea1-33c3-47c4-b0f5-518dbaf167b6",
+      "name": "If11"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation Using Gemini for Part 3\n",
+        "height": 352,
+        "width": 2324,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3104,
+        -304
+      ],
+      "typeVersion": 1,
+      "id": "ea5707a9-858b-452e-9db2-db982ec76387",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58e59d65-d141-4f51-b170-71b7041b41eb",
+              "name": "Gemini video id",
+              "value": "={{ $('Gemini Video Request 3').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3776,
+        -208
+      ],
+      "id": "4fcd724a-6a44-4f35-b09e-08d9f07ab883",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "amount": 45
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4000,
+        -208
+      ],
+      "id": "c10efab3-43ab-410b-b426-c1b28b418a8a",
+      "name": "Wait2",
+      "webhookId": "bad236e9-ea5e-49ba-af88-1e1ae484b392"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61b2ec6c-daa1-4fcb-8ae2-886fb9d4f33c",
+              "leftValue": "={{ $json.response.generateVideoResponse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4416,
+        -208
+      ],
+      "id": "d6aaa9d5-6221-4a24-a545-3ae29fb05a72",
+      "name": "If8"
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $('Edit Fields1').item.json['Gemini video id'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4176,
+        -208
+      ],
+      "id": "00d1dfd5-01a0-4d65-a970-27832c1c87b4",
+      "name": "Gemini Video Generation1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "68750872-9bd4-4431-89e8-d73dc2f48900",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json['Script 3*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3152,
+        -192
+      ],
+      "id": "8191260d-543c-43c9-ae4f-9ec05712b8d7",
+      "name": "If12"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation Using Gemini for Part 4\n",
+        "height": 352,
+        "width": 2324,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3104,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "189f57a8-a379-4fea-bad5-5e6882d404b5",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58e59d65-d141-4f51-b170-71b7041b41eb",
+              "name": "Gemini video id",
+              "value": "={{ $('Gemini Video Request 4').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3776,
+        192
+      ],
+      "id": "75c3f60a-e3cb-4c72-9839-5594919be960",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "amount": 45
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4000,
+        192
+      ],
+      "id": "d1d40984-df79-456d-9948-aa378fa5835e",
+      "name": "Wait3",
+      "webhookId": "bad236e9-ea5e-49ba-af88-1e1ae484b392"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61b2ec6c-daa1-4fcb-8ae2-886fb9d4f33c",
+              "leftValue": "={{ $json.response.generateVideoResponse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4416,
+        192
+      ],
+      "id": "3d22108a-fb99-4231-b35e-d83eae8e60a0",
+      "name": "If9"
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $('Edit Fields3').item.json['Gemini video id'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4176,
+        192
+      ],
+      "id": "11ce6656-0b88-4542-8c70-dd4040a84339",
+      "name": "Gemini Video Generation3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "68750872-9bd4-4431-89e8-d73dc2f48900",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json['Script 4*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3168,
+        208
+      ],
+      "id": "62531bc2-993d-4e56-9e7a-ccd5cbad23a8",
+      "name": "If13"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation Using Gemini for Part 5\n",
+        "height": 352,
+        "width": 2324,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3104,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "0eb209dd-ca32-46f0-93c3-55428b3e7d35",
+      "name": "Sticky Note18"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58e59d65-d141-4f51-b170-71b7041b41eb",
+              "name": "Gemini video id",
+              "value": "={{ $('Gemini Video Request 5').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3776,
+        592
+      ],
+      "id": "7dc5ceea-01d0-4c0e-b76a-db5f24f84384",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "amount": 45
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4000,
+        592
+      ],
+      "id": "558fc23c-f4d5-4a17-bb28-8bcc202b0fcc",
+      "name": "Wait4",
+      "webhookId": "bad236e9-ea5e-49ba-af88-1e1ae484b392"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61b2ec6c-daa1-4fcb-8ae2-886fb9d4f33c",
+              "leftValue": "={{ $json.response.generateVideoResponse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4416,
+        592
+      ],
+      "id": "9072633d-af2f-4795-a0c7-0fb3f9e7dd2d",
+      "name": "If10"
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $('Edit Fields4').item.json['Gemini video id'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4176,
+        592
+      ],
+      "id": "84d85e45-6ccc-4a6e-86d6-8dfb3e6d13b7",
+      "name": "Gemini Video Generation4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "68750872-9bd4-4431-89e8-d73dc2f48900",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json['Script 5*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3152,
+        608
+      ],
+      "id": "50d2da4f-4491-4a4d-be88-9333e0a816e2",
+      "name": "If14"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $('Get row(s) in sheet').first().json['Script 2*'] || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text_2: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3360,
+        -624
+      ],
+      "id": "3a707fbd-1769-4298-baad-34c98740c8c6",
+      "name": "Clean Prompt 2"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $input.first().json['Script 1*'] || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1904,
+        -544
+      ],
+      "id": "900fcacc-51ed-49af-8706-eec84e375630",
+      "name": "Clean Prompt 1"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $('Get row(s) in sheet').first().json['Script 3*'] || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text_3: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3360,
+        -208
+      ],
+      "id": "24b7c838-4c60-47af-a210-57740b91ac24",
+      "name": "Clean Prompt 3"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $('Get row(s) in sheet').first().json['Script 4*'] || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text_4: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3360,
+        192
+      ],
+      "id": "f35ebd1f-ef93-4ee1-a8ec-96a190dca7a4",
+      "name": "Clean Prompt 4"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $('Get row(s) in sheet').first().json['Script 5*'] || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text_5: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3360,
+        592
+      ],
+      "id": "675e2f77-e196-46fe-9667-b1488068b67a",
+      "name": "Clean Prompt 5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-generate-preview:predictLongRunning",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"instances\": [\n    {\n      \"prompt\": \"{{ $('Clean Prompt 1').item.json.cleaned_text }}\",\n      \"referenceImages\": [\n        {\n          \"image\": {\n            \"bytesBase64Encoded\": \"{{ $json.Image }}\",\n            \"mimeType\": \"image/png\"\n          },\n          \"referenceType\": \"asset\"\n        }\n      ]\n    }\n  ],\n  \"parameters\": {\n    \"durationSeconds\": 8,\n    \"sampleCount\": 1,\n    \"aspectRatio\": \"9:16\",\n    \"resolution\": \"720p\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3168,
+        -1024
+      ],
+      "id": "228396cc-c1ec-4c0d-9a6d-ec3c7f055154",
+      "name": "Gemini Video Request 1",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-generate-preview:predictLongRunning",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"instances\": [\n    {\n      \"prompt\": \"{{ $json.cleaned_text_2 }}\",\n      \"referenceImages\": [\n        {\n          \"image\": {\n            \"bytesBase64Encoded\": \"{{ $('Add image to Prompt').item.json.Image }}\",\n            \"mimeType\": \"image/png\"\n          },\n          \"referenceType\": \"asset\"\n        }\n      ]\n    }\n  ],\n  \"parameters\": {\n    \"durationSeconds\": 8,\n    \"sampleCount\": 1,\n    \"aspectRatio\": \"9:16\",\n    \"resolution\": \"720p\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3552,
+        -624
+      ],
+      "id": "c762236e-6aac-4a5b-8650-5e2589c6a201",
+      "name": "Gemini Video Request 2",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-generate-preview:predictLongRunning",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"instances\": [\n    {\n      \"prompt\": \"{{ $json.cleaned_text_3 }}\",\n      \"referenceImages\": [\n        {\n          \"image\": {\n            \"bytesBase64Encoded\": \"{{ $('Add image to Prompt').item.json.Image }}\",\n            \"mimeType\": \"image/png\"\n          },\n          \"referenceType\": \"asset\"\n        }\n      ]\n    }\n  ],\n  \"parameters\": {\n    \"durationSeconds\": 8,\n    \"sampleCount\": 1,\n    \"aspectRatio\": \"9:16\",\n    \"resolution\": \"720p\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3552,
+        -208
+      ],
+      "id": "76d01b42-5575-42a7-a866-863163c8744f",
+      "name": "Gemini Video Request 3",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-generate-preview:predictLongRunning",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"instances\": [\n    {\n      \"prompt\": \"{{ $json.cleaned_text_4 }}\",\n      \"referenceImages\": [\n        {\n          \"image\": {\n            \"bytesBase64Encoded\": \"{{ $('Add image to Prompt').item.json.Image }}\",\n            \"mimeType\": \"image/png\"\n          },\n          \"referenceType\": \"asset\"\n        }\n      ]\n    }\n  ],\n  \"parameters\": {\n    \"durationSeconds\": 8,\n    \"sampleCount\": 1,\n    \"aspectRatio\": \"9:16\",\n    \"resolution\": \"720p\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3552,
+        192
+      ],
+      "id": "ac34ba17-1810-47f1-a18a-a3eebe851be3",
+      "name": "Gemini Video Request 4",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-generate-preview:predictLongRunning",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "prettyprint",
+              "value": "true"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"instances\": [\n    {\n      \"prompt\": \"{{ $json.cleaned_text_5 }}\",\n      \"referenceImages\": [\n        {\n          \"image\": {\n            \"bytesBase64Encoded\": \"{{ $('Add image to Prompt').item.json.Image }}\",\n            \"mimeType\": \"image/png\"\n          },\n          \"referenceType\": \"asset\"\n        }\n      ]\n    }\n  ],\n  \"parameters\": {\n    \"durationSeconds\": 8,\n    \"sampleCount\": 1,\n    \"aspectRatio\": \"9:16\",\n    \"resolution\": \"720p\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3552,
+        592
+      ],
+      "id": "dacc7c66-460e-4bbd-8fb1-06b081b05d7c",
+      "name": "Gemini Video Request 5",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
+              "name": "video 1",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4656,
+        -1024
+      ],
+      "id": "f166d8b4-fa79-48ff-972f-0f5a76596b5e",
+      "name": "Video URL 1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
+              "name": "video 2",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4864,
+        -640
+      ],
+      "id": "92f4ec69-0c92-4914-9ef7-aab87d2c42ec",
+      "name": "Video URL "
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4464,
+        -1024
+      ],
+      "id": "d370631d-4190-41ac-b557-949d5885e153",
+      "name": "Get Video From Gemini 1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4656,
+        -640
+      ],
+      "id": "93d26235-1fd4-4998-9eca-b5f9f495b93d",
+      "name": "Get Video From Gemini 2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4656,
+        -224
+      ],
+      "id": "2ab83f6a-c9d5-418b-a39e-8be157e1f6c4",
+      "name": "Get Video From Gemini 3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4656,
+        176
+      ],
+      "id": "fd525835-f629-4343-8167-ffcc64c4156d",
+      "name": "Get Video From Gemini 4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4656,
+        576
+      ],
+      "id": "5de6cc97-b0f5-4816-879b-f599ad65704b",
+      "name": "Get Video From Gemini 5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eNdYt0bgKjkVuMe2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
+              "name": "video 3",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4848,
+        -224
+      ],
+      "id": "28101ebd-7c90-4518-8a94-715037a45970",
+      "name": "Video URL 2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
+              "name": "video 4",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4864,
+        176
+      ],
+      "id": "53c63f64-a1e7-44ea-8a40-303dfec1c57c",
+      "name": "Video URL 3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
+              "name": "video 5",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4864,
+        576
+      ],
+      "id": "2a47fc2b-7df2-4dae-b422-973de56ca8e8",
+      "name": "Video URL 4"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['video 1'] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4864,
+        -1024
+      ],
+      "id": "4fcacc84-150c-47fd-b539-e2aff2bba765",
+      "name": "Combine - Download Video 1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "1NTchNtXEJzo7QY7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/1NTchNtXEJzo7QY7",
+          "cachedResultName": "[SUB] Upload File"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5088,
+        -1024
+      ],
+      "id": "db06d692-2ded-49c2-9cf6-6bee5f0e127e",
+      "name": "Combine - Upload File 1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['video 2'] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5088,
+        -640
+      ],
+      "id": "bdcd87ba-7edd-4960-9a84-cb20bec603d7",
+      "name": "Combine - Download Video 2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "1NTchNtXEJzo7QY7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/1NTchNtXEJzo7QY7",
+          "cachedResultName": "[SUB] Upload File"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5312,
+        -640
+      ],
+      "id": "7599c79e-00e1-47a0-b158-70459ba708b4",
+      "name": "Combine - Upload File 2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "4DIQxPqss7AJpZeG",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/4DIQxPqss7AJpZeG",
+          "cachedResultName": "[SUB] Wait for Transcode"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "transcode-id": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "transcode-id"
+          ],
+          "schema": [
+            {
+              "id": "transcode-id",
+              "displayName": "transcode-id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        6240,
+        -832
+      ],
+      "id": "c9349add-8ff2-4c58-86ae-06dceefaae2c",
+      "name": "Combine - Wait for Transcode"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5600,
+        -832
+      ],
+      "id": "057b57fb-2109-4b75-b12f-cfbd1f5b6478",
+      "name": "Combine - Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputs = $items('Combine - Merge').map(i => ({\n  url: i.json.result.fileUrl,\n  filename: i.json.result.filename // optional, if you want it\n}));\nreturn [{\n  json: {\n    inputs,\n    outputFormat: 'mp4',\n    filters: [\n      { filter: \"[0:v]setpts=PTS-STARTPTS[v0];[0:a]aresample=async=1,asetpts=N/SR/TB[a0];[1:v]setpts=PTS-STARTPTS[v1];[1:a]aresample=async=1,asetpts=N/SR/TB[a1];[v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]\" }\n    ],\n    options: [\n      { option: \"-map\", argument: \"[v]\" },\n      { option: \"-map\", argument: \"[a]\" },\n      { option: \"-c:v\", argument: \"libx264\" },\n      { option: \"-c:a\", argument: \"aac\" },\n      { option: \"-crf\", argument: \"23\" },\n      { option: \"-pix_fmt\", argument: \"yuv420p\" },\n      { option: \"-movflags\", argument: \"+faststart\" }\n    ]\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5824,
+        -832
+      ],
+      "id": "c180068f-30bd-4fda-960e-a921b3991598",
+      "name": "Combine - Generate JSON"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-micro.com/v1/transcodes",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6048,
+        -832
+      ],
+      "id": "e2ccc451-6dcf-4e44-b94a-4577683a18ac",
+      "name": "Combine - Transcode",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "wZJaw2N0AlMzl01t",
+          "name": "FFMpeg Micro Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['video 3'] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5088,
+        -224
+      ],
+      "id": "ecf1f682-7284-47fb-b9a0-fe11d6df4375",
+      "name": "Combine - Download Video "
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "1NTchNtXEJzo7QY7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/1NTchNtXEJzo7QY7",
+          "cachedResultName": "[SUB] Upload File"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5312,
+        -224
+      ],
+      "id": "34a87dec-4175-410f-bc5e-0ec3c9ecea58",
+      "name": "Combine - Upload File "
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['video 4'] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5088,
+        176
+      ],
+      "id": "81418e12-03e1-4e7b-b934-c262183c6ed9",
+      "name": "Combine - Download Video 3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "1NTchNtXEJzo7QY7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/1NTchNtXEJzo7QY7",
+          "cachedResultName": "[SUB] Upload File"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5312,
+        176
+      ],
+      "id": "933f7a0c-28a9-4afc-96a6-55ed744c8cde",
+      "name": "Combine - Upload File 3"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['video 5'] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5088,
+        576
+      ],
+      "id": "d5ee171e-acbd-4c18-9fcd-2c2209202ea5",
+      "name": "Combine - Download Video 4"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "1NTchNtXEJzo7QY7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/1NTchNtXEJzo7QY7",
+          "cachedResultName": "[SUB] Upload File"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5312,
+        576
+      ],
+      "id": "f124a74c-176c-4718-8501-bc4686a86fda",
+      "name": "Combine - Upload File 4"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "1NTchNtXEJzo7QY7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/1NTchNtXEJzo7QY7",
+          "cachedResultName": "[SUB] Upload File"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        6608,
+        -832
+      ],
+      "id": "b1a44c29-4d42-443a-8489-c52ae901debe",
+      "name": "Combine - Upload File 5"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6416,
+        -832
+      ],
+      "id": "f6346342-7fc3-45aa-be9e-eeb6683966a1",
+      "name": "Combine - Download Video 5"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "4DIQxPqss7AJpZeG",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/4DIQxPqss7AJpZeG",
+          "cachedResultName": "[SUB] Wait for Transcode"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "transcode-id": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "transcode-id"
+          ],
+          "schema": [
+            {
+              "id": "transcode-id",
+              "displayName": "transcode-id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        6304,
+        -352
+      ],
+      "id": "ee26177b-ebdb-471f-9e8c-b87f1e799856",
+      "name": "Combine - Wait for Transcode1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5664,
+        -352
+      ],
+      "id": "39f85dfd-dee0-4735-b785-75971461f688",
+      "name": "Combine - Merge1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputs = $items('Combine - Merge1').map(i => ({\n  url: i.json.result.fileUrl,\n  filename: i.json.result.filename // optional, if you want it\n}));\nreturn [{\n  json: {\n    inputs,\n    outputFormat: 'mp4',\n    filters: [\n      { filter: \"[0:v]setpts=PTS-STARTPTS[v0];[0:a]aresample=async=1,asetpts=N/SR/TB[a0];[1:v]setpts=PTS-STARTPTS[v1];[1:a]aresample=async=1,asetpts=N/SR/TB[a1];[v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]\" }\n    ],\n    options: [\n      { option: \"-map\", argument: \"[v]\" },\n      { option: \"-map\", argument: \"[a]\" },\n      { option: \"-c:v\", argument: \"libx264\" },\n      { option: \"-c:a\", argument: \"aac\" },\n      { option: \"-crf\", argument: \"23\" },\n      { option: \"-pix_fmt\", argument: \"yuv420p\" },\n      { option: \"-movflags\", argument: \"+faststart\" }\n    ]\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5888,
+        -352
+      ],
+      "id": "1039bd94-5cf5-42d2-8b90-733e11928ab0",
+      "name": "Combine - Generate JSON1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-micro.com/v1/transcodes",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6112,
+        -352
+      ],
+      "id": "e4bcd889-b326-4d50-8d89-5360112b79a7",
+      "name": "Combine - Transcode1",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "wZJaw2N0AlMzl01t",
+          "name": "FFMpeg Micro Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "1NTchNtXEJzo7QY7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/1NTchNtXEJzo7QY7",
+          "cachedResultName": "[SUB] Upload File"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        6672,
+        -352
+      ],
+      "id": "eb6a1d76-badc-4e88-b607-189c8c9904d2",
+      "name": "Combine - Upload File 6"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6480,
+        -352
+      ],
+      "id": "1ae635cc-d849-4218-a636-a56baf949e4b",
+      "name": "Combine - Download Video 6"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "4DIQxPqss7AJpZeG",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/4DIQxPqss7AJpZeG",
+          "cachedResultName": "[SUB] Wait for Transcode"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "transcode-id": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "transcode-id"
+          ],
+          "schema": [
+            {
+              "id": "transcode-id",
+              "displayName": "transcode-id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        6352,
+        96
+      ],
+      "id": "6c97f234-6c97-49f8-b788-c800760cb7e9",
+      "name": "Combine - Wait for Transcode2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5712,
+        96
+      ],
+      "id": "5a582eea-eb13-4f52-9bb9-73725f297787",
+      "name": "Combine - Merge2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputs = $items('Combine - Merge2').map(i => ({\n  url: i.json.result.fileUrl,\n  filename: i.json.result.filename // optional, if you want it\n}));\nreturn [{\n  json: {\n    inputs,\n    outputFormat: 'mp4',\n    filters: [\n      { filter: \"[0:v]setpts=PTS-STARTPTS[v0];[0:a]aresample=async=1,asetpts=N/SR/TB[a0];[1:v]setpts=PTS-STARTPTS[v1];[1:a]aresample=async=1,asetpts=N/SR/TB[a1];[v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]\" }\n    ],\n    options: [\n      { option: \"-map\", argument: \"[v]\" },\n      { option: \"-map\", argument: \"[a]\" },\n      { option: \"-c:v\", argument: \"libx264\" },\n      { option: \"-c:a\", argument: \"aac\" },\n      { option: \"-crf\", argument: \"23\" },\n      { option: \"-pix_fmt\", argument: \"yuv420p\" },\n      { option: \"-movflags\", argument: \"+faststart\" }\n    ]\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5936,
+        96
+      ],
+      "id": "ea213e1f-3a35-4c03-97a4-0b00b7cca884",
+      "name": "Combine - Generate JSON2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-micro.com/v1/transcodes",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6160,
+        96
+      ],
+      "id": "49acc30e-071e-41c6-963a-5640cd7c5086",
+      "name": "Combine - Transcode2",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "wZJaw2N0AlMzl01t",
+          "name": "FFMpeg Micro Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "1NTchNtXEJzo7QY7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/1NTchNtXEJzo7QY7",
+          "cachedResultName": "[SUB] Upload File"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        6720,
+        96
+      ],
+      "id": "7196a74e-2da6-4134-98ed-6ac89fa665af",
+      "name": "Combine - Upload File 7"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6528,
+        96
+      ],
+      "id": "8588191c-0a9d-45cb-b6b8-3255af1e3f45",
+      "name": "Combine - Download Video 7"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "4DIQxPqss7AJpZeG",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/4DIQxPqss7AJpZeG",
+          "cachedResultName": "[SUB] Wait for Transcode"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "transcode-id": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "transcode-id"
+          ],
+          "schema": [
+            {
+              "id": "transcode-id",
+              "displayName": "transcode-id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        6384,
+        512
+      ],
+      "id": "4cf0b6b4-f651-4765-90c8-103a34785cca",
+      "name": "Combine - Wait for Transcode3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5744,
+        512
+      ],
+      "id": "8ac7c6db-a90a-40ee-8a87-5e065e263f31",
+      "name": "Combine - Merge3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputs = $items('Combine - Merge3').map(i => ({\n  url: i.json.result.fileUrl,\n  filename: i.json.result.filename // optional, if you want it\n}));\nreturn [{\n  json: {\n    inputs,\n    outputFormat: 'mp4',\n    filters: [\n      { filter: \"[0:v]setpts=PTS-STARTPTS[v0];[0:a]aresample=async=1,asetpts=N/SR/TB[a0];[1:v]setpts=PTS-STARTPTS[v1];[1:a]aresample=async=1,asetpts=N/SR/TB[a1];[v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]\" }\n    ],\n    options: [\n      { option: \"-map\", argument: \"[v]\" },\n      { option: \"-map\", argument: \"[a]\" },\n      { option: \"-c:v\", argument: \"libx264\" },\n      { option: \"-c:a\", argument: \"aac\" },\n      { option: \"-crf\", argument: \"23\" },\n      { option: \"-pix_fmt\", argument: \"yuv420p\" },\n      { option: \"-movflags\", argument: \"+faststart\" }\n    ]\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5968,
+        512
+      ],
+      "id": "76bdcd80-621f-44fc-b15f-3698b7daa49f",
+      "name": "Combine - Generate JSON3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-micro.com/v1/transcodes",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6192,
+        512
+      ],
+      "id": "96b94bd9-9e9d-479b-b3d4-83782cfff57f",
+      "name": "Combine - Transcode3",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "wZJaw2N0AlMzl01t",
+          "name": "FFMpeg Micro Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6560,
+        512
+      ],
+      "id": "844a1e71-1b2e-4ef5-82df-866cf55239f8",
+      "name": "Combine - Download Video 8"
+    },
+    {
+      "parameters": {
+        "content": "## Combine Video",
+        "height": 320,
+        "width": 1584,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5552,
+        -944
+      ],
+      "typeVersion": 1,
+      "id": "e5fcabaa-4f1b-4f24-b73c-1754cc26c7ab",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Combine Video",
+        "height": 320,
+        "width": 1536,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5616,
+        -416
+      ],
+      "typeVersion": 1,
+      "id": "7672939e-d8bd-466b-b492-4d31809250ae",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Combine Video",
+        "height": 320,
+        "width": 1584,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5632,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "dcf5ac95-9c62-4e97-805f-44e13cb8d085",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Combine Video",
+        "height": 320,
+        "width": 1232,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5648,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "1fc2ba90-3c69-429b-905d-3e88f4e63465",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4a72aad3-b36e-4a82-8bf0-d3681769de29",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json['Script 3*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        6816,
+        -832
+      ],
+      "id": "fd109eb8-b749-42a8-85e3-79166020eba7",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4a72aad3-b36e-4a82-8bf0-d3681769de29",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json['Script 4*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        6832,
+        -352
+      ],
+      "id": "e3835a0f-3e6c-4c53-b6f4-db3c5567bd1f",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4a72aad3-b36e-4a82-8bf0-d3681769de29",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json['Script 5*'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        6912,
+        96
+      ],
+      "id": "25157f47-ef47-4139-946b-dc978fcef901",
+      "name": "If3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Clean Prompt 1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add image to Prompt": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Request 1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If11",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If12",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If13",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Add image to Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Generation2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "Get Video From Gemini 1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Generation2": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmation message2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload media3": {
+      "main": [
+        [
+          {
+            "node": "YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time4": {
+      "main": [
+        [
+          {
+            "node": "Success Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success Message": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube": {
+      "main": [
+        [
+          {
+            "node": "Date & Time4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If7": {
+      "main": [
+        [
+          {
+            "node": "Get Video From Gemini 2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Generation": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If11": {
+      "main": [
+        [
+          {
+            "node": "Clean Prompt 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Generation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "Get Video From Gemini 3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Generation1": {
+      "main": [
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If12": {
+      "main": [
+        [
+          {
+            "node": "Clean Prompt 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Generation3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If9": {
+      "main": [
+        [
+          {
+            "node": "Get Video From Gemini 4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Generation3": {
+      "main": [
+        [
+          {
+            "node": "If9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If13": {
+      "main": [
+        [
+          {
+            "node": "Clean Prompt 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait4": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Generation4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If10": {
+      "main": [
+        [
+          {
+            "node": "Get Video From Gemini 5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Generation4": {
+      "main": [
+        [
+          {
+            "node": "If10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If14": {
+      "main": [
+        [
+          {
+            "node": "Clean Prompt 5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Prompt 2": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Request 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Prompt 1": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Prompt 3": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Request 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Prompt 4": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Request 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Prompt 5": {
+      "main": [
+        [
+          {
+            "node": "Gemini Video Request 5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Request 1": {
+      "main": [
+        [
+          {
+            "node": "Confirmation message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Request 2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Request 3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Request 4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Video Request 5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video From Gemini 1": {
+      "main": [
+        [
+          {
+            "node": "Video URL 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video From Gemini 2": {
+      "main": [
+        [
+          {
+            "node": "Video URL ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video From Gemini 3": {
+      "main": [
+        [
+          {
+            "node": "Video URL 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video From Gemini 4": {
+      "main": [
+        [
+          {
+            "node": "Video URL 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video From Gemini 5": {
+      "main": [
+        [
+          {
+            "node": "Video URL 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video 1": {
+      "main": [
+        [
+          {
+            "node": "Combine - Upload File 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Upload File 1": {
+      "main": [
+        [
+          {
+            "node": "Combine - Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video 2": {
+      "main": [
+        [
+          {
+            "node": "Combine - Upload File 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Upload File 2": {
+      "main": [
+        [
+          {
+            "node": "Combine - Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine - Wait for Transcode": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video 5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Merge": {
+      "main": [
+        [
+          {
+            "node": "Combine - Generate JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Generate JSON": {
+      "main": [
+        [
+          {
+            "node": "Combine - Transcode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Transcode": {
+      "main": [
+        [
+          {
+            "node": "Combine - Wait for Transcode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video URL ": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video URL 1": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video ": {
+      "main": [
+        [
+          {
+            "node": "Combine - Upload File ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video 3": {
+      "main": [
+        [
+          {
+            "node": "Combine - Upload File 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video 4": {
+      "main": [
+        [
+          {
+            "node": "Combine - Upload File 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video URL 4": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video URL 2": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video URL 3": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Upload File ": {
+      "main": [
+        [
+          {
+            "node": "Combine - Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine - Upload File 3": {
+      "main": [
+        [
+          {
+            "node": "Combine - Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine - Upload File 4": {
+      "main": [
+        [
+          {
+            "node": "Combine - Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video 5": {
+      "main": [
+        [
+          {
+            "node": "Combine - Upload File 5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Wait for Transcode1": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video 6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Merge1": {
+      "main": [
+        [
+          {
+            "node": "Combine - Generate JSON1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Generate JSON1": {
+      "main": [
+        [
+          {
+            "node": "Combine - Transcode1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Transcode1": {
+      "main": [
+        [
+          {
+            "node": "Combine - Wait for Transcode1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video 6": {
+      "main": [
+        [
+          {
+            "node": "Combine - Upload File 6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Wait for Transcode2": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video 7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Merge2": {
+      "main": [
+        [
+          {
+            "node": "Combine - Generate JSON2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Generate JSON2": {
+      "main": [
+        [
+          {
+            "node": "Combine - Transcode2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Transcode2": {
+      "main": [
+        [
+          {
+            "node": "Combine - Wait for Transcode2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video 7": {
+      "main": [
+        [
+          {
+            "node": "Combine - Upload File 7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Wait for Transcode3": {
+      "main": [
+        [
+          {
+            "node": "Combine - Download Video 8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Merge3": {
+      "main": [
+        [
+          {
+            "node": "Combine - Generate JSON3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Generate JSON3": {
+      "main": [
+        [
+          {
+            "node": "Combine - Transcode3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Transcode3": {
+      "main": [
+        [
+          {
+            "node": "Combine - Wait for Transcode3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Download Video 8": {
+      "main": [
+        [
+          {
+            "node": "Upload media3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Upload File 5": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Upload File 6": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine - Upload File 7": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Upload media3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Combine - Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Upload media3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Combine - Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Upload media3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Combine - Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "cd2e7e84-db9b-4353-99cc-41ab8657664c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6047e03721d9dc97b62008e1c5f1b0618edb8fe8f5948f314f526260131f78f2"
+  },
+  "id": "qSASj3FYvM8Yg7mG",
+  "tags": []
+}

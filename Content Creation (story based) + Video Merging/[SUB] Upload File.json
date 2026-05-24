@@ -1,0 +1,251 @@
+{
+  "name": "[SUB] Upload File",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "fb1c809a-428d-45e0-99d1-28c05130c326",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -864,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst out = [];\n\n// Function to detect MIME type from binary data (file signatures)\nfunction detectMimeTypeFromBuffer(buffer) {\n  if (buffer.length < 12) return 'application/octet-stream';\n\n  // ISO BMFF/MP4/M4A\n  if (buffer.slice(4, 8).toString('ascii') === 'ftyp') {\n    const brand = buffer.slice(8, 12).toString('ascii');\n    if (brand === 'qt  ' || brand === 'moov') return 'video/quicktime';\n    if (['mp42','isom','avc1','iso2'].includes(brand)) return 'video/mp4';\n    if (['M4A ','M4B ','mp41'].includes(brand)) return 'audio/mp4';\n  }\n\n  // WAV (RIFF....WAVE)\n  if (buffer.slice(0, 4).toString('ascii') === 'RIFF' &&\n      buffer.slice(8, 12).toString('ascii') === 'WAVE') return 'audio/wav';\n\n  // AVI\n  if (buffer.slice(0, 4).toString('ascii') === 'RIFF' &&\n      buffer.slice(8, 12).toString('ascii') === 'AVI ') return 'video/x-msvideo';\n\n  // WebM/Matroska\n  if (buffer.length >= 4 && buffer.readUInt32BE(0) === 0x1a45dfa3) return 'video/webm';\n\n  // FLAC\n  if (buffer.slice(0, 4).toString('ascii') === 'fLaC') return 'audio/flac';\n\n  // OGG container (may be Opus/Vorbis)\n  if (buffer.slice(0, 4).toString('ascii') === 'OggS') {\n    // Try to detect Opus\n    if (buffer.includes(Buffer.from('OpusHead'))) return 'audio/opus';\n    return 'audio/ogg';\n  }\n\n  // MP3: ID3 header or MPEG frame sync\n  if (buffer.slice(0, 3).toString('ascii') === 'ID3') return 'audio/mpeg';\n  const b0 = buffer[0], b1 = buffer[1];\n  if (b0 === 0xff && (b1 & 0xe0) === 0xe0) return 'audio/mpeg';\n\n  // AAC ADTS\n  if (b0 === 0xff && (b1 & 0xf6) === 0xf0) return 'audio/aac';\n\n  return 'application/octet-stream';\n}\n\nfor (let i = 0; i < items.length; i++) {\n  const item = items[i];\n  \n  // Get the binary property name (usually 'data' but could be different)\n  const binaryKey = Object.keys(item.binary || {})[0];\n  \n  if (!binaryKey) {\n    continue;\n  }\n  \n  const binaryData = item.binary[binaryKey];\n  \n  // Extract input information\n  const inputFilename = binaryData.fileName || 'unknown';\n  let contentType = binaryData.mimeType || 'application/octet-stream';\n  \n  // Get actual file size in bytes from the buffer\n  const buffer = await this.helpers.getBinaryDataBuffer(i, binaryKey);\n  const fileSizeBytes = buffer.length;\n  \n  // Detect MIME type from binary data if it's the default\n  if (contentType === 'application/octet-stream') {\n    contentType = detectMimeTypeFromBuffer(buffer);\n  }\n  \n  // Get file extension from filename\n  const inputExt = inputFilename.split('.').pop() || '';\n  const base = inputFilename.replace(/\\.[^/.]+$/, '') || inputFilename;\n  \n  // Generate date prefix (e.g., YYYY-MM-DD)\n  const now = new Date();\n  const datePrefix = now.toISOString().split('T')[0]; // Format: YYYY-MM-DD\n  \n  // Determine output extension (you can customize this logic)\n  const outputExt = inputExt; // Or set to your desired extension\n  \n  // Create output filename\n  const outputFilenameNoDate = `${base}.${outputExt}`;\n  const outputFilename = `${datePrefix}-${outputFilenameNoDate}`;\n  \n  // Update binary data with detected mimeType\n  const updatedBinary = {\n    ...item.binary,\n    [binaryKey]: {\n      ...item.binary[binaryKey],\n      mimeType: contentType\n    }\n  };\n  \n  out.push({\n    json: {\n      // input\n      filename: inputFilename,\n      contentType,\n      fileSizeBytes,\n      base,\n      // output\n      datePrefix,\n      outputExt,\n      outputFilenameNoDate,\n      outputFilename\n    },\n    binary: updatedBinary // Preserve binary data with updated mimeType\n  });\n}\n\nreturn out;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -544,
+        0
+      ],
+      "id": "d3237af5-7228-4f5f-a1d4-95a529658502",
+      "name": "Extract Metadata"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-micro.com/v1/upload/presigned-url",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"filename\": \"{{$node['Extract Metadata'].json.filename}}\",\n  \"contentType\": \"{{$node['Extract Metadata'].json.contentType}}\",\n  \"fileSize\": {{$node['Extract Metadata'].json.fileSizeBytes}}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -336,
+        128
+      ],
+      "id": "6d853650-9179-4bec-8ec3-3e318f361200",
+      "name": "Get Presigned URL",
+      "alwaysOutputData": false,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "wZJaw2N0AlMzl01t",
+          "name": "FFMpeg Micro Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -144,
+        16
+      ],
+      "id": "748a5687-29eb-4f8e-94ec-512e3b1642fd",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{$node['Get Presigned URL'].json.result.uploadUrl}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "=Content-Type",
+              "value": "={{ $('Extract Metadata').item.json.contentType }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "=data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        64,
+        16
+      ],
+      "id": "e04abb3a-6b1b-4755-933e-1062f777e19e",
+      "name": "Upload File"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-micro.com/v1/upload/confirm",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"filename\": \"{{$node['Get Presigned URL'].json.result?.filename || $node['Get Presigned URL'].json.filename}}\",\n  \"fileSize\": {{$node['Extract Metadata'].json.fileSizeBytes}}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        256,
+        16
+      ],
+      "id": "8207f2eb-8bd3-4fe2-b90b-b794e226e62e",
+      "name": "Confirm Upload",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "wZJaw2N0AlMzl01t",
+          "name": "FFMpeg Micro Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://drive.google.com/uc?export=download&id=1-IrAJVG_nHRsm45F49aSrObca2eaNj83",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -768,
+        176
+      ],
+      "id": "762f3479-8404-444e-b47e-3b29bcc32da1",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        432,
+        -176
+      ],
+      "id": "2635e03f-0c55-491f-97aa-7bb900756621",
+      "name": "Output"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Extract Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Metadata": {
+      "main": [
+        [
+          {
+            "node": "Get Presigned URL",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Presigned URL": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Upload File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File": {
+      "main": [
+        [
+          {
+            "node": "Confirm Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirm Upload": {
+      "main": [
+        [
+          {
+            "node": "Output",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f7acb7c7-761b-4571-b3c2-4e05f749871c",
+  "meta": {
+    "instanceId": "6047e03721d9dc97b62008e1c5f1b0618edb8fe8f5948f314f526260131f78f2"
+  },
+  "id": "1NTchNtXEJzo7QY7",
+  "tags": []
+}

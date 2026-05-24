@@ -1,0 +1,1000 @@
+{
+  "name": "Content Creation",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d1f6573e-dc67-4207-9c1f-9ad5cd55f9db",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Not Uploaded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "e5aee290-e5ad-4810-9181-8a703eb29f2e",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "not uploaded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "49f0793d-38d9-4940-bba3-0674abfbb671",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "=not Uploaded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "88d31663-c193-4e73-9a27-6ba1d2a27c3e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 13
+            },
+            {
+              "triggerAtHour": 18
+            },
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -192,
+        208
+      ],
+      "id": "d640471a-e5ed-4010-91b9-276f33028546",
+      "name": "Schedule Trigger",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.kie.ai/api/v1/jobs/createTask",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"model\": \"bytedance/seedance-2\",\n    \"callBackUrl\": \"https://your-domain.com/api/callback\",\n    \"input\": {\n        \"prompt\": \"{{ $json.Prompt }}\",\n        \n        \"reference_image_urls\": [\n            \"{{ $json.Image }}\"\n        ],\n        \"return_last_frame\": false,\n        \"generate_audio\": true,\n        \"resolution\": \"480p\",\n        \"aspect_ratio\": \"9:16\",\n        \"duration\": 15,\n        \"web_search\": false,\n        \"remove_watermark\": true\n    }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -176,
+        672
+      ],
+      "id": "f9f92d1e-453b-4a03-bc15-7e777734afc3",
+      "name": "Create a Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "LqMWk44JvVHHySY8",
+          "name": "Kie AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        192,
+        672
+      ],
+      "id": "edf3b01b-5dd4-4711-80ec-5fae4a2b7495",
+      "name": "Wait",
+      "webhookId": "385f9ca1-2942-4a4d-a6b5-5442ecce926e"
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $('Create a Video').item.json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        368,
+        672
+      ],
+      "id": "b68b1641-a440-4445-b2c8-ec22424011b7",
+      "name": "Get Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "LqMWk44JvVHHySY8",
+          "name": "Kie AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data.state }}",
+                    "rightValue": "success",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "968be3b5-2f97-4294-854d-4ef8ac877457"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ca5a54ee-60da-4955-adc2-9019bf725ed0",
+                    "leftValue": "={{ $json.data.state }}",
+                    "rightValue": "waiting",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Generating"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "542933da-2c4d-46aa-bfe6-9444b76cf06d",
+                    "leftValue": "={{ $json.data.state }}",
+                    "rightValue": "failed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Failed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        656
+      ],
+      "id": "d332ec16-2bac-4c85-913f-d19719b6750f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8ce37e5b-17d2-4a75-b936-9638c9f8d683",
+              "name": "Image",
+              "value": "={{ $('Get row(s) in sheet').item.json['Image Link'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b02ecf90-c7fc-4500-be0f-a7f53182d7ee",
+              "name": "Prompt",
+              "value": "={{ $json.cleaned_text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        192
+      ],
+      "id": "ac42aff7-33c4-4ccd-b966-3264f7552236",
+      "name": "Add image to Prompt"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemma-3-1b-it",
+          "mode": "list",
+          "cachedResultName": "models/gemma-3-1b-it"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert in creating high-performing, short-form video prompts optimized for TikTok, Reels, and Shorts.\n\nYour task is to generate a complete, ready-to-use AI video generation prompt based on the product details below.\n\nProduct Name: {{ $json['Product Name'] }}\nProduct Description: {{ $json['Product Description '] }}\nNote: there is also a image of the Product.\n\nRequirements:\n- The output must be performance-focused and optimized for high engagement.\n- Include a strong hook within the first 1–3 seconds.\n- Follow a clear problem → solution storytelling structure.\n- Use a TikTok-style format (fast-paced, attention-grabbing, not just clean visuals).\n- Make the content feel native to social media (UGC style, relatable, scroll-stopping).\n\nThe output must include:\n1. Hook (first 3 seconds)\n2. Scene-by-scene breakdown (start → middle → end)\n3. Camera angles and movements\n4. Lighting and visual style\n5. On-screen text / captions\n6. Voiceover script (if applicable)\n7. Mood and pacing\n8. Call-to-action\n\nExample Output:\nCreate a TikTok-style vertical video promoting a portable neck and shoulder massager with heat therapy. Start with a young woman at home looking tense and rubbing her neck after a long day, showing discomfort from stress and poor posture. Use soft, warm indoor lighting. Transition to her placing a green ergonomic neck and shoulder massager (matching the reference image) around her shoulders and securing the strap. Include close-up shots of the product in use: show the hand-shaped massage nodes moving, subtle glowing heat effect to represent heat therapy, and the device comfortably fitted around the neck and shoulders. Then cut to the woman relaxing, smiling with her eyes closed, clearly relieved and comfortable in a cozy home setting. Add quick lifestyle scenes of her using the device while sitting and lying down. Use fast-paced cuts every 2–3 seconds, smooth zoom-ins, and modern TikTok transitions. Apply warm, calming color tones and soft relaxing background music. Overlay engaging TikTok-style text throughout: Neck pain after long days?, Instant relief anytime, Heat + Deep tissue massage, Portable & rechargeable, Feel the difference in minutes. End with a clean product hero shot on a minimal background with text: Goodbye neck & shoulder pain. Get yours now\n\n\nDo not include any extra text, emojis. Do not use \"\",*,/, in the prompt only use ,and.\n\n"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        192
+      ],
+      "id": "9ba099af-4ffd-4384-890b-39dca8d6e61f",
+      "name": "Message a model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Z5NEruZfkW19iGeZ",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Schedule and Trigger\n",
+        "height": 400,
+        "width": 624,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "19117fa3-fef1-4642-80d7-4ed2856501ff",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Prompt Generations\n",
+        "height": 400,
+        "width": 640,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "917c9473-22ea-477f-ae16-5f8f4491aec7",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const input = $input.first().json.content.parts[0].text || \"\";\n\n  if (typeof input !== \"string\") {\n    throw new Error(\"Input must be a string\");\n  }\n\n  const cleaned = input\n    .replace(/\"/g, \"\")                   // remove ALL double quotes\n    .replace(/[!@#$%^&*()';\\/\\\\]/g, \"\")  // remove other unwanted symbols\n    .replace(/\\n/g, \" \")                 // replace new lines with space\n    .replace(/\\s+/g, \" \")                // collapse multiple spaces\n    .trim();\n\n  return [\n    {\n      json: {\n        cleaned_text: cleaned,\n        success: true\n      }\n    }\n  ];\n\n} catch (error) {\n  return [\n    {\n      json: {\n        cleaned_text: null,\n        success: false,\n        error: error.message || \"Unknown error\"\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        192
+      ],
+      "id": "9886cd14-d7a6-4809-a789-9e13e5d9c85e",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "content": "## Video Generation \n",
+        "height": 464,
+        "width": 1056,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        576
+      ],
+      "typeVersion": 1,
+      "id": "916c1908-7e4a-4b2f-8cf7-50f520c8ef45",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c7e9dbc8-a8e0-41de-890f-7635cd12b699",
+              "name": "video_url",
+              "value": "={{ JSON.parse($json.data.resultJson).resultUrls[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "88988701-b689-4ca8-ac7d-003dc9ecc15d",
+              "name": "row_number",
+              "value": "={{ $('Get row(s) in sheet').item.json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "f3d02df3-a40f-4479-8092-c74e1b6badb8",
+              "name": "Product Name",
+              "value": "={{ $('Get row(s) in sheet').item.json['Product Name'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        1216
+      ],
+      "id": "67c5dee4-a770-4dbe-b7f6-ef9399427700",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "## Upload Video\n\n",
+        "height": 416,
+        "width": 1300,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        1104
+      ],
+      "typeVersion": 1,
+      "id": "22bdf689-114c-4249-84c3-733766157d1f",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2ccd5655-79c9-4460-9d6d-a606e1115e20",
+              "name": "video_url",
+              "value": "={{ $('Edit Fields').item.json.video_url }}",
+              "type": "string"
+            },
+            {
+              "id": "c9745e5e-9a2c-467d-8131-b6d989694ec9",
+              "name": "video_caption",
+              "value": "={{ $('Edit Fields').item.json['Product Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7e747f6c-fa20-4343-aa53-7972cfddc368",
+              "name": "row_number",
+              "value": "={{ $('Edit Fields').item.json.row_number }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        1216
+      ],
+      "id": "6db28140-62a6-42ea-9c26-4503a5e59373",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1cpzREuA-JcfXT2a-_lsjTFODfvFfSn8oG5xsluIM32E",
+          "mode": "list",
+          "cachedResultName": "Product Details for n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cpzREuA-JcfXT2a-_lsjTFODfvFfSn8oG5xsluIM32E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "الورقة1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cpzREuA-JcfXT2a-_lsjTFODfvFfSn8oG5xsluIM32E/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Not Uploaded"
+            },
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "not uploaded"
+            }
+          ]
+        },
+        "combineFilters": "OR",
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        16,
+        208
+      ],
+      "id": "0a6edeee-cf3f-4ded-bdf9-3463f4e482a9",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GVKaQ4pPSa8BllwL",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "mediaUrl": "={{ $('Edit Fields1').item.json.video_url }}"
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        176,
+        1216
+      ],
+      "id": "f2e9b8d3-2531-4c53-b93c-5e28f758ea2c",
+      "name": "Upload media",
+      "credentials": {
+        "blotatoApi": {
+          "id": "JruM5DzA1ZGfYHtQ",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "The Kie AI or Gemini has failed check the Balance Information: \n\nkie AI Billing: https://kie.ai/billing\n\nGemini API Billing: https://aistudio.google.com/billing",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        544,
+        896
+      ],
+      "id": "9cacf181-5fcb-4623-b95d-8e0152e3159d",
+      "name": "Send a message",
+      "webhookId": "4a59a209-262a-4f12-a335-4b75e2d27344",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "The product details is not updated. Check Google Sheet name \"Product Details for n8n\".",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        464,
+        336
+      ],
+      "id": "3e395f0a-de90-4bd2-950e-5510c841a25b",
+      "name": "Send a message1",
+      "webhookId": "dbab90e8-5d7d-404e-9db8-f736bbab944f",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "=The post is uploaded to Instagram, Upload Time:  {{ $json.currentDate }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        880,
+        1136
+      ],
+      "id": "b64cc17a-8e07-45ef-b6e0-1301039bda41",
+      "name": "Send a message3",
+      "webhookId": "921aabae-55d0-4fac-bf8e-2db08c61ab38",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "=The post is uploaded to Tiktok, Upload Time: {{ $json.currentDate }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        880,
+        1344
+      ],
+      "id": "a7fa7da0-761b-4d8e-a0e7-f0edfef6a69d",
+      "name": "Send a message4",
+      "webhookId": "921aabae-55d0-4fac-bf8e-2db08c61ab38",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "accountId": {
+          "__rl": true,
+          "value": "43605",
+          "mode": "list",
+          "cachedResultName": "vexalunes",
+          "cachedResultUrl": "https://backend.blotato.com/v2/accounts/43605"
+        },
+        "postContentText": "={{ $('Edit Fields1').item.json.video_caption }}",
+        "postContentMediaUrls": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        400,
+        1136
+      ],
+      "id": "535e91e7-177d-4d2b-abd3-7eebfcf2073e",
+      "name": "Instagram",
+      "credentials": {
+        "blotatoApi": {
+          "id": "JruM5DzA1ZGfYHtQ",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "platform": "tiktok",
+        "accountId": {
+          "__rl": true,
+          "value": "39863",
+          "mode": "list",
+          "cachedResultName": "vexaluness",
+          "cachedResultUrl": "https://backend.blotato.com/v2/accounts/39863"
+        },
+        "postContentText": "={{ $('Edit Fields1').item.json.video_caption }}",
+        "postContentMediaUrls": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "@blotato/n8n-nodes-blotato.blotato",
+      "typeVersion": 2,
+      "position": [
+        416,
+        1344
+      ],
+      "id": "f10fb3e5-7f51-4d27-afc2-eacd118d44de",
+      "name": "Tiktok",
+      "credentials": {
+        "blotatoApi": {
+          "id": "JruM5DzA1ZGfYHtQ",
+          "name": "Blotato account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0ATYUGSHL4",
+          "mode": "list",
+          "cachedResultName": "n8n_video_creation"
+        },
+        "text": "={{ $json.msg }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        16,
+        672
+      ],
+      "id": "1bac1656-c5bd-45d6-96f3-540ea05f03f8",
+      "name": "Send a message6",
+      "webhookId": "be81900d-159d-4e18-bbb2-078bb7f62e8f",
+      "credentials": {
+        "slackApi": {
+          "id": "Gomn6OkOjEZd9zhg",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        656,
+        1136
+      ],
+      "id": "57bcd8cf-3cb6-4f55-a2a4-32f33a0c3b3d",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        656,
+        1344
+      ],
+      "id": "e7c59a99-3fb2-47af-9340-9e6d248ebd28",
+      "name": "Date & Time1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a Video": {
+      "main": [
+        [
+          {
+            "node": "Send a message6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add image to Prompt": {
+      "main": [
+        [
+          {
+            "node": "Create a Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Add image to Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Upload media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload media": {
+      "main": [
+        [
+          {
+            "node": "Tiktok",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Instagram": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tiktok": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message6": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message3": {
+      "main": [
+        []
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Send a message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1da309da-746c-4633-9149-0dc9b9a1f360",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "83c2e61eaa1c687af7c6388dfdbf7d5cfd8f5d143f109c17c2671156a93c00fd"
+  },
+  "id": "XOrBtlpUKs7mVzqm",
+  "tags": []
+}
