@@ -80,3 +80,37 @@ Schedule Trigger
                                                 ↓
                                    Update Google Sheet row ✓
 ```
+
+# Content Creation Uning Kie Ai
+<img src="Content Creation Uning Kie Ai/Content Creation Uning Kie Ai.png" width="800">
+<p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate and publish product ad videos to Instagram and TikTok using Kie AI for video generation. Unlike Gemini Veo3, Kie AI uses a simpler two-HTTP-node pattern: one to submit the video generation request and a second to poll for completion, making the pipeline cleaner while still delivering AI-generated video content.</p>
+</div>
+
+### Full Flow Summary
+```
+Schedule Trigger
+    → Read Google Sheets
+        → Content ready? ──YES──→ Claude generates product ad prompt
+                                      → Format prompt → Add product image
+                                      → Slack notification
+                                            ↓
+                              HTTP Node 1 → POST to Kie AI (submit job)
+                                            ↓
+                                   Slack: job submitted
+                                            ↓
+                                         Wait
+                                            ↓
+                              HTTP Node 2 → GET Kie AI (check status)
+                                            ↓
+                                       Switch
+                              ┌────────────┼────────────┐
+                           Success    Generating      Failed
+                              ↓           ↓              ↓
+                         Continue    loop back      Slack alert
+                              ↓
+                        Edit Fields → Upload media (Blotato)
+                           ↙                      ↘
+                    Instagram post             TikTok post
+                        ↓                          ↓
+                  Slack confirm              Slack confirm
+```
