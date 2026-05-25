@@ -10,7 +10,7 @@
 </div>
 
 # Content Creation (Ad based)
-<img src="Content Creation (Ad based)/Instagram And TikTok (Ad).png" alt="Claude" width="800">
+<img src="Content Creation (Ad based)/Instagram And TikTok (Ad).png" alt="Ad based" width="800">
 <p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate and publish ad videos to Instagram and TikTok on a schedule. It uses Google Sheets as a control panel, Claude/AI for prompt generation, Gemini Veo3 for video generation, and Blotato for social media publishing.</p>
 </div>
 
@@ -29,7 +29,7 @@ Schedule Trigger
                               Update Google Sheet row ✓
 ```
 # Content Creation (story based) + Video Merging
-<img src="Content Creation (Ad based)/Instagram And TikTok (Ad).png" alt="Claude" width="800">
+<img src="Content Creation (story based) + Video Merging/Youtube Story.png" alt="story based" width="800">
 <p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate long-form AI videos for YouTube Stories by solving Gemini Veo3's 8-second video duration limit. It uses Google Sheets as a script control panel, generates up to 5 separate 8-second clips in parallel using Gemini Veo3, merges them using FFmpeg Micro, and publishes the final video to YouTube.</p>
 </div>
 
