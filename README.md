@@ -9,6 +9,32 @@
   </h1>
 </div>
 
+# personal AI assistant with Telegram voice and text
+<img src="personal AI assistant with Telegram voice and text/Workflow.png" width="800">
+<p style="font-size: 16px; color: gray;">This is an n8n workflow that builds a Telegram-based AI personal assistant called Angie designed to streamline daily productivity. Angie can handle both voice and text messages, and is connected to Gmail, Google Calendar, Tasks, and Contacts, letting user's manage their entire day just by chatting on Telegram. It uses an OpenAI Tools Agent architecture, meaning Angie decides on her own which tool to call based on what you ask.</p>
+</div>
+
+### Full Flow Summary
+```
+Telegram message received (text or voice)
+    → Detect message type
+        → Voice? ──YES──→ Download voice file → Transcribe with Whisper
+        → Text?  ──NO───→ pass text directly
+                                    ↓
+                         Angie (OpenAI Tools Agent)
+                         + Window Buffer Memory (context)
+                              ↓ decides which tool to use ↓
+                ┌──────────┬──────────┬──────────┬──────────┐
+              Gmail    Calendar    Tasks    Contacts
+                └──────────┴──────────┴──────────┴──────────┘
+                                    ↓
+                         Formulates response
+                                    ↓
+                    Send reply back via Telegram
+                    ↙                         ↘
+                Success                      Error handler
+```
+
 # Content Creation Uning Gemini Veo3
 <img src="Content Creation Uning Gemini Veo3/Content Creation Uning Gemini Veo3.png" alt="story based" width="800">
 <p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate product marketing and ad videos using Gemini Veo3 and publish them to Instagram and TikTok. As of today, n8n's native Gemini video node does not support image input, this workflow solves that by using a custom HTTP Request node to send images directly to Veo3, enabling true image-to-video generation for product ads.</p>
@@ -83,7 +109,7 @@ Schedule Trigger
 
 # Content Creation Uning Kie Ai
 <img src="Content Creation Uning Kie Ai/Content Creation Uning Kie Ai.png" width="800">
-<p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate and publish product ad videos to Instagram and TikTok using Kie AI for video generation. Unlike Gemini Veo3, Kie AI uses a simpler two-HTTP-node pattern: one to submit the video generation request and a second to poll for completion, making the pipeline cleaner while still delivering AI-generated video content.</p>
+<p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate and publish product ad videos to Instagram and TikTok using Kie AI for video generation. Unlike Gemini Veo3, Kie AI uses a simpler two HTTP-node pattern: one to submit the video generation request and a second to poll for completion, making the pipeline cleaner while still delivering AI-generated video content.</p>
 </div>
 
 ### Full Flow Summary
@@ -114,3 +140,4 @@ Schedule Trigger
                         ↓                          ↓
                   Slack confirm              Slack confirm
 ```
+
