@@ -9,6 +9,35 @@
   </h1>
 </div>
 
+# Content Creation Uning Gemini Veo3
+<img src="Content Creation Uning Gemini Veo3/Content Creation Uning Gemini Veo3.png" alt="story based" width="800">
+<p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate product marketing and ad videos using Gemini Veo3 and publish them to Instagram and TikTok. As of today, n8n's native Gemini video node does not support image input, this workflow solves that by using a custom HTTP Request node to send images directly to Veo3, enabling true image-to-video generation for product ads.</p>
+</div>
+
+### Full Flow Summary
+```
+Schedule Trigger
+    → Read Google Sheets
+        → Content ready? ──YES──→ Get Today's Style
+                                      → Claude generates product ad prompt
+                                      → Fetch product image → Convert to Base64
+                                      → Add image to prompt
+                                      → Slack notification
+                                            ↓
+                              Custom HTTP Request → Gemini Veo3
+                              (image + prompt sent as Base64)
+                                            ↓
+                                   Wait → Poll → Video ready?
+                                      NO  → loop back
+                                      YES → Fetch video binary
+                                            ↓
+                                   Upload to Blotato
+                                   ↙              ↘
+                            Instagram post      TikTok post
+                                   ↓                ↓
+                            Slack confirm      Slack confirm
+```
+
 # Content Creation (Ad based)
 <img src="Content Creation (Ad based)/Instagram And TikTok (Ad).png" alt="Ad based" width="800">
 <p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate and publish ad videos to Instagram and TikTok on a schedule. It uses Google Sheets as a control panel, Claude/AI for prompt generation, Gemini Veo3 for video generation, and Blotato for social media publishing.</p>
