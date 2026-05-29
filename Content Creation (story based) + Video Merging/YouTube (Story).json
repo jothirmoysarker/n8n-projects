@@ -1493,7 +1493,7 @@
             {
               "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
               "name": "video 1",
-              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key={Gemini api key}",
               "type": "string"
             }
           ]
@@ -1516,7 +1516,7 @@
             {
               "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
               "name": "video 2",
-              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key={Gemini api key}",
               "type": "string"
             }
           ]
@@ -1694,7 +1694,7 @@
             {
               "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
               "name": "video 3",
-              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key={Gemini api key}",
               "type": "string"
             }
           ]
@@ -1717,7 +1717,7 @@
             {
               "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
               "name": "video 4",
-              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key={Gemini api key}",
               "type": "string"
             }
           ]
@@ -1740,7 +1740,7 @@
             {
               "id": "780798e1-0b63-4ccf-9212-9bb52af54235",
               "name": "video 5",
-              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key=AIzaSyBmkYzXtZeJjJUy9TqxOp0BV-AsJEkwkhg",
+              "value": "={{ $json.response.generateVideoResponse.generatedSamples[0].video.uri }}&alt=true&key={Gemini api key}",
               "type": "string"
             }
           ]
