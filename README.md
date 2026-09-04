@@ -35,7 +35,7 @@ Telegram message received (text or voice)
                 Success                      Error handler
 ```
 
-# Content Creation Uning Gemini Veo3
+# Content Creation Using Gemini Veo3
 <img src="Content Creation Uning Gemini Veo3/Content Creation Uning Gemini Veo3.png" alt="story based" width="800">
 <p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate product marketing and ad videos using Gemini Veo3 and publish them to Instagram and TikTok. As of today, n8n's native Gemini video node does not support image input, this workflow solves that by using a custom HTTP Request node to send images directly to Veo3, enabling true image-to-video generation for product ads.</p>
 </div>
@@ -107,7 +107,7 @@ Schedule Trigger
                                    Update Google Sheet row ✓
 ```
 
-# Content Creation Uning Kie Ai
+# Content Creation Using Kie Ai
 <img src="Content Creation Uning Kie Ai/Content Creation Uning Kie Ai.png" width="800">
 <p style="font-size: 16px; color: gray;">This is an n8n workflow built to automatically generate and publish product ad videos to Instagram and TikTok using Kie AI for video generation. Unlike Gemini Veo3, Kie AI uses a simpler two HTTP-node pattern: one to submit the video generation request and a second to poll for completion, making the pipeline cleaner while still delivering AI-generated video content.</p>
 </div>
